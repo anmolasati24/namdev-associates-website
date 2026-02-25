@@ -1,187 +1,306 @@
+import { useEffect, useRef } from "react";
+
+/* ─── Scroll Reveal Hook ─── */
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("show");
+        }
+      },
+      { threshold }
+    );
+    if (ref.current) observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
 export default function Contact() {
+
+  const revealRef1 = useInView();
+  const revealRef2 = useInView();
+  const revealRef3 = useInView();
+
   return (
-    <div className="pt-40 bg-gray-50">
+    <>
+      <style>{`
+
+      @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@600;700;800;900&family=Inter:wght@300;400;500;600&display=swap');
+
+      body { margin:0; font-family:'Inter',sans-serif; background:#f8faff; }
+
+      /* ───────── HERO ───────── */
+      .hero{
+        min-height:70vh;
+        background:url("https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80") center center/cover no-repeat;
+        display:flex;
+        align-items:center;
+        margin-top:60px;
+        padding:0 10%;
+        position:relative;
+        color:#fff;
+      }
+      .hero::after{
+        content:"";
+        position:absolute;
+        inset:0;
+        background:linear-gradient(135deg,rgba(10,26,82,0.85),rgba(37,99,235,0.75));
+      }
+      .hero-content{
+        position:relative;
+        z-index:2;
+        max-width:700px;
+      }
+      .hero h1{
+        font-family:'Raleway',sans-serif;
+        font-size:64px;
+        font-weight:900;
+        margin-bottom:20px;
+        line-height:1.1;
+      }
+      .hero p{
+        font-size:17px;
+        opacity:0.9;
+        line-height:1.8;
+      }
+
+      /* ───────── SECTION ───────── */
+      .section{
+        padding:90px 10%;
+      }
+
+      .contact-grid{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:70px;
+      }
+
+      .title-main{
+        font-family:'Raleway',sans-serif;
+        font-size:42px;
+        font-weight:800;
+        color:#0a1a52;
+        margin-bottom:20px;
+      }
+
+      .subtitle{
+        color:#555;
+        font-size:16px;
+        line-height:1.8;
+        margin-bottom:40px;
+      }
+
+      /* ───────── ADDRESS BOX ───────── */
+      .address-box{
+        margin-bottom:30px;
+      }
+
+      .address-box h4{
+        font-family:'Raleway';
+        font-size:20px;
+        margin-bottom:8px;
+        color:#0a1a52;
+      }
+
+      .address-box p{
+        font-size:14px;
+        color:#555;
+        line-height:1.7;
+      }
+
+      .socials{
+        display:flex;
+        gap:15px;
+        margin-top:20px;
+      }
+
+      .socials span{
+        width:38px;
+        height:38px;
+        border-radius:50%;
+        background:#2563EB;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        color:#fff;
+        cursor:pointer;
+        transition:0.3s;
+      }
+      .socials span:hover{
+        transform:translateY(-4px);
+        background:#0a1a52;
+      }
+
+      /* ───────── FORM ───────── */
+      .form-card{
+        background:rgba(255,255,255,0.9);
+        backdrop-filter:blur(10px);
+        padding:45px;
+        border-radius:18px;
+        box-shadow:0 30px 80px rgba(0,0,0,0.1);
+      }
+
+      .form-group{
+        position:relative;
+        margin-bottom:28px;
+      }
+
+      .form-group input,
+      .form-group textarea,
+      .form-group select{
+        width:100%;
+        padding:16px;
+        border-radius:10px;
+        border:1px solid #d9e1f7;
+        font-size:14px;
+        outline:none;
+        transition:0.3s;
+        background:#f9fbff;
+      }
+
+      .form-group input:focus,
+      .form-group textarea:focus,
+      .form-group select:focus{
+        border-color:#2563EB;
+        box-shadow:0 0 0 3px rgba(37,99,235,0.15);
+        background:#fff;
+      }
+
+      .submit-btn{
+        width:100%;
+        padding:16px;
+        border-radius:40px;
+        border:none;
+        font-weight:600;
+        font-size:15px;
+        letter-spacing:1px;
+        color:#fff;
+        background:linear-gradient(135deg,#0a1a52,#2563EB);
+        cursor:pointer;
+        transition:0.4s;
+      }
+
+      .submit-btn:hover{
+        transform:translateY(-4px);
+        box-shadow:0 18px 40px rgba(37,99,235,0.4);
+      }
+
+      /* ───────── REVEAL ───────── */
+      .reveal{
+        opacity:0;
+        transform:translateY(50px);
+        transition:all 0.9s ease;
+      }
+      .reveal.show{
+        opacity:1;
+        transform:translateY(0);
+      }
+
+      @media(max-width:900px){
+        .contact-grid{ grid-template-columns:1fr; }
+        .hero h1{ font-size:40px; }
+      }
+
+      `}</style>
 
       {/* HERO */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 py-20 text-white text-center">
-        <h1 className="text-4xl md:text-5xl font-bold mb-6">
-          Get in Touch
-        </h1>
-        <p className="max-w-3xl mx-auto text-lg text-blue-100">
-          We’d love to hear from you. Reach out today and our team will assist you with tailored manpower and recruitment solutions.
-        </p>
+      <section className="hero">
+        <div className="hero-content">
+          <h1>Connect With Our Experts</h1>
+          <p>
+            Let’s build a reliable workforce strategy together. Reach out to our
+            headquarters or branch offices — our team is ready to assist you.
+          </p>
+        </div>
       </section>
 
-
-      {/* CONTACT SECTION FIRST */}
-      <section className="bg-white py-20 rounded-t-[60px] shadow-inner">
-        <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-14">
+      {/* CONTACT SECTION */}
+      <section className="section">
+        <div className="contact-grid">
 
           {/* LEFT SIDE */}
-          <div>
-            <h2 className="text-4xl font-bold mb-6">
-              Let’s Discuss Your Manpower Needs
-            </h2>
-
-            <p className="text-gray-600 mb-6 leading-relaxed">
-              Whether you're looking for skilled workforce solutions, staffing support,
-              or long-term recruitment partnerships — our experienced team is here to guide you.
-            </p>
-
-            <p className="text-gray-600 mb-8 leading-relaxed">
-              We specialize in connecting businesses with qualified professionals
-              while ensuring efficiency, reliability, and long-term value.
-              Let’s build your workforce together.
-            </p>
-
-            {/* Contact Info */}
-            <div className="space-y-5 mb-8">
-              <div className="flex gap-4">
-                <div className="bg-blue-900 text-white p-3 rounded-full">📍</div>
-                <p>3/290, Vipul Khand, Gomti Nagar, Lucknow – 226010</p>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="bg-blue-900 text-white p-3 rounded-full">📞</div>
-                <p>+91-84232-15047</p>
-              </div>
-
-              <div className="flex gap-4">
-                <div className="bg-blue-900 text-white p-3 rounded-full">✉️</div>
-                <p>namdevassociateslko@gmail.com</p>
-              </div>
+          <div ref={revealRef1} className="reveal">
+            <div className="title-main">Let’s Build Something Strong Together</div>
+            <div className="subtitle">
+              Whether you require manpower outsourcing, security services,
+              HR consultancy or compliance advisory — we ensure timely
+              deployment and complete statutory compliance.
             </div>
 
-            {/* Compact Social Icons */}
-            <div className="flex gap-4">
-              <a href="#" className="w-9 h-9 flex items-center justify-center bg-gray-200 rounded-full hover:bg-blue-900 hover:text-white transition">
-                f
-              </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center bg-gray-200 rounded-full hover:bg-blue-900 hover:text-white transition">
-                in
-              </a>
-              <a href="#" className="w-9 h-9 flex items-center justify-center bg-gray-200 rounded-full hover:bg-blue-900 hover:text-white transition">
-                ig
-              </a>
+            <div className="address-box">
+              <h4>Lucknow – Headquarters</h4>
+              <p>
+                3/290, Vipul Khand, Gomti Nagar,<br/>
+                Lucknow – 226010<br/>
+                +91-84232-15047<br/>
+                namdevassociateslko@gmail.com
+              </p>
+            </div>
+
+            <div className="address-box">
+              <h4>Delhi – Branch Office</h4>
+              <p>
+                Regional Office, Delhi<br/>
+                +91-84232-15047
+              </p>
+            </div>
+
+            <div className="address-box">
+              <h4>Bhopal – Branch Office</h4>
+              <p>
+                Regional Office, Bhopal<br/>
+                +91-84232-15047
+              </p>
+            </div>
+
+            <div className="socials">
+              <span>f</span>
+              <span>in</span>
+              <span>𝕏</span>
+              <span>ig</span>
             </div>
           </div>
 
+          {/* RIGHT SIDE FORM */}
+          <div ref={revealRef2} className="reveal">
+            <div className="form-card">
 
-          {/* FORM */}
-          <div className="bg-white p-10 rounded-3xl shadow-2xl border border-gray-100">
-            <form className="space-y-6">
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  placeholder="Full Name"
-                  className="px-5 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
-                />
-                <input
-                  type="email"
-                  placeholder="Email Address"
-                  className="px-5 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
-                />
+              <div className="form-group">
+                <input placeholder="Full Name*" />
               </div>
 
-              <div className="grid md:grid-cols-2 gap-6">
-                <input
-                  type="text"
-                  placeholder="Phone Number"
-                  className="px-5 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none"
-                />
-                <select className="px-5 py-3 rounded-full border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none">
-                  <option>What are your needs?</option>
-                  <option>Recruitment</option>
-                  <option>Consulting</option>
-                  <option>Staffing</option>
+              <div className="form-group">
+                <input placeholder="Email Address*" />
+              </div>
+
+              <div className="form-group">
+                <input placeholder="Phone Number*" />
+              </div>
+
+              <div className="form-group">
+                <select>
+                  <option>Select Service Required</option>
+                  <option>Manpower Outsourcing</option>
+                  <option>Security Services</option>
+                  <option>HR Consultancy</option>
+                  <option>ISO Consultancy</option>
                 </select>
               </div>
 
-              <textarea
-                rows="5"
-                placeholder="Write your message..."
-                className="px-5 py-4 rounded-2xl border border-gray-300 focus:ring-2 focus:ring-blue-600 outline-none w-full"
-              />
+              <div className="form-group">
+                <textarea rows="5" placeholder="Write Your Requirement..." />
+              </div>
 
-              <button
-                type="submit"
-                className="w-full py-3 rounded-full bg-gradient-to-r from-blue-900 to-blue-700 text-white font-semibold hover:scale-105 transition"
-              >
-                Send Message
-              </button>
+              <button className="submit-btn">Submit Your Request →</button>
 
-            </form>
+            </div>
           </div>
+
         </div>
       </section>
-
-
-      {/* OFFICES SECTION */}
-      <section className="py-20 bg-gray-100">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-
-          <h2 className="text-4xl font-bold mb-12">Our Offices</h2>
-
-          <div className="grid md:grid-cols-3 gap-10">
-
-            {/* Lucknow */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl hover:-translate-y-3 transition">
-              <img
-                src="https://s7ap1.scene7.com/is/image/incredibleindia/lucknow%20railway%20station-lucknow-uttar%20pradesh-hero?qlt=82&ts=1742160337309"
-                alt="Lucknow"
-                className="w-full h-48 object-cover rounded-xl mb-5"
-              />
-              <h3 className="text-2xl font-bold">Lucknow</h3>
-              <p className="tracking-widest text-gray-500 text-sm mt-2">HEADQUARTERS</p>
-              <div className="w-16 h-[2px] bg-black mx-auto my-4"></div>
-
-              <p className="text-gray-600">
-                3/290, Vipul Khand, Gomti Nagar, Lucknow – 226010
-              </p>
-              <p className="mt-3 font-medium">+91-84232-15047</p>
-              <p className="mt-2 text-gray-600">namdevassociateslko@gmail.com</p>
-              <p className="mt-2 text-gray-500">Working Hours: 07am to 5pm</p>
-            </div>
-
-            {/* Delhi with Image */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl hover:-translate-y-3 transition">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQS2LwtOEMg3O3cSmue2qSuOJQYcHjY67NxWQ&s"
-                alt="Delhi"
-                className="w-full h-48 object-cover rounded-xl mb-5"
-              />
-              <h3 className="text-2xl font-bold">Delhi</h3>
-              <p className="tracking-widest text-gray-500 text-sm mt-2">BRANCH OFFICE</p>
-              <div className="w-16 h-[2px] bg-black mx-auto my-4"></div>
-
-              <p className="text-gray-600">Regional Office, Delhi</p>
-              <p className="mt-3 font-medium">+91-84232-15047</p>
-              <p className="mt-2 text-gray-600">namdevassociateslko@gmail.com</p>
-              <p className="mt-2 text-gray-500">Working Hours: 07am to 5pm</p>
-            </div>
-
-            {/* Bhopal with Image */}
-            <div className="bg-white p-8 rounded-3xl shadow-xl hover:-translate-y-3 transition">
-              <img
-                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTyxcA_AOL3Bmq2C6AX7-Hj9ZdPHoF-Uei4qA&s"
-                alt="Bhopal"
-                className="w-full h-48 object-cover rounded-xl mb-5"
-              />
-              <h3 className="text-2xl font-bold">Bhopal</h3>
-              <p className="tracking-widest text-gray-500 text-sm mt-2">BRANCH OFFICE</p>
-              <div className="w-16 h-[2px] bg-black mx-auto my-4"></div>
-
-              <p className="text-gray-600">Regional Office, Bhopal</p>
-              <p className="mt-3 font-medium">+91-84232-15047</p>
-              <p className="mt-2 text-gray-600">namdevassociateslko@gmail.com</p>
-              <p className="mt-2 text-gray-500">Working Hours: 07am to 5pm</p>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-    </div>
+    </>
   );
 }
