@@ -9,6 +9,7 @@ import Services from "./pages/Services";
 import Contact from "./pages/Contact"
 import ComplianceSection from "./pages/Compliance";
 import ClientsUI from "./pages/Clients";
+import ConsultationPage from "./pages/consultation";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
         <Route path="/contact" element={<Contact/>}/>
         <Route path ="/compliance" element={<ComplianceSection/>}></Route>
         <Route path="/clients" element={<ClientsUI/>}/>
+        <Route path="/consultation" element={<ConsultationPage/>}/>
       </Routes>
 
       <Footer />
