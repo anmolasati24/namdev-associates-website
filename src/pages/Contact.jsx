@@ -34,11 +34,20 @@ export default function Contact() {
 
       /* ───────── HERO ───────── */
       .hero{
+
         min-height:75vh;
         background:url("https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80") center center/cover no-repeat;
         display:flex;
         align-items:center;
         padding:0 5%;
+
+        min-height:70vh;
+        background:url("https://images.unsplash.com/photo-1497366216548-37526070297c?w=1600&q=80") center center/cover no-repeat;
+        display:flex;
+        align-items:center;
+        margin-top:60px;
+        padding:0 10%;
+
         position:relative;
         color:#fff;
       }
@@ -50,14 +59,20 @@ export default function Contact() {
       }
       .hero-content{
         position:relative;
+
         z-index:4;
+
+        z-index:2;
+
         max-width:700px;
       }
       .hero h1{
         font-family:'Raleway',sans-serif;
         font-size:64px;
         font-weight:900;
+
         margin-top:80px;
+
         margin-bottom:20px;
         line-height:1.1;
       }
@@ -211,7 +226,7 @@ export default function Contact() {
         <div className="hero-content">
           <h1>Connect With Our Experts</h1>
           <p>
-            Let’s build a reliable workforce strategy together. Reach out to our
+            Let's build a reliable workforce strategy together. Reach out to our
             headquarters or branch offices — our team is ready to assist you.
           </p>
         </div>
@@ -231,17 +246,17 @@ export default function Contact() {
             </div>
 
             <div className="address-box">
-              <h4>Lucknow – Headquarters</h4>
+              <h4>Lucknow - Headquarters</h4>
               <p>
                 3/290, Vipul Khand, Gomti Nagar,<br/>
-                Lucknow – 226010<br/>
+                Lucknow - 226010<br/>
                 +91-84232-15047<br/>
                 namdevassociateslko@gmail.com
               </p>
             </div>
 
             <div className="address-box">
-              <h4>Delhi – Branch Office</h4>
+              <h4>Delhi - Branch Office</h4>
               <p>
                 Regional Office, Delhi<br/>
                 +91-84232-15047
@@ -249,7 +264,7 @@ export default function Contact() {
             </div>
 
             <div className="address-box">
-              <h4>Bhopal – Branch Office</h4>
+              <h4>Bhopal -Branch Office</h4>
               <p>
                 Regional Office, Bhopal<br/>
                 +91-84232-15047
@@ -259,7 +274,7 @@ export default function Contact() {
             <div className="socials">
               <span>f</span>
               <span>in</span>
-              <span>𝕏</span>
+              <span>X</span>
               <span>ig</span>
             </div>
           </div>

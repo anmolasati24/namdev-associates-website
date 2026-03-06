@@ -1,4 +1,9 @@
+import { useNavigate } from "react-router-dom";
+
+
+
 export default function Hero() {
+  const navigate=useNavigate();
   return (
     <section className="pt-48 pb-32 bg-gradient-to-r from-gray-50 to-gray-100">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
@@ -23,7 +28,8 @@ export default function Hero() {
 
           {/* Buttons */}
           <div className="flex flex-wrap gap-4 mb-8">
-            <button className="bg-blue-900 text-white px-8 py-3 rounded-md hover:bg-blue-800 transition shadow-md">
+            <button onClick={()=>navigate("/consultation")}
+            className="bg-blue-900 text-white px-8 py-3 rounded-md hover:bg-blue-800 transition shadow-md">
               Request a Consultation
             </button>
 
