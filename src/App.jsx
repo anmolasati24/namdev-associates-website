@@ -6,10 +6,9 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact"
-import ComplianceSection from "./pages/Compliance";
 
-import Services from "./pages/Services";
-import Contact from "./pages/Contact"
+
+
 import ComplianceSection from "./pages/Compliance";
 import ClientsUI from "./pages/Clients";
 import ConsultationPage from "./pages/consultation";
