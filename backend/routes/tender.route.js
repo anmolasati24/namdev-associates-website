@@ -1,14 +1,30 @@
-const express =require("express");
-const router= express.Router();
-const upload =require("../middlewares/upload.middleware");
-const {createTender} =require("../controllers/tender.controller");
+const express = require("express");
+const router = express.Router();
+const Tender = require("../models/Tender");
+const sendEmail = require("../utils/sendEmail");
 
-router.post("/",upload.single("document"),createTender);
-const protect = require("../middleware/auth.middleware");
+router.post("/tenders", async (req, res) => {
 
-router.get("/admin", protect, getAllTenders);
-router.put("/:id", protect, updateTenderStatus);
+try {
 
+const tender = new Tender(req.body);
+await tender.save();
 
-module.exports=router;
+await sendEmail(req.body);
 
+res.status(201).json({
+message: "Tender submitted successfully"
+});
+
+} catch (error) {
+
+res.status(500).json({
+message: "Server error",
+error: error.message
+});
+
+}
+
+});
+
+module.exports = router;
