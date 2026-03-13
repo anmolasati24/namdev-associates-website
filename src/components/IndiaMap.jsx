@@ -15,11 +15,10 @@ const OFFICES = [
   },
   {
     name: "Delhi – Branch Office",
-    coordinates: [77.2090, 28.6139],
+    coordinates: [77.209, 28.6139],
     state: "Delhi",
     address: "Regional Office, Delhi",
     phone: "+91-84232-15047",
-    email: "",
     details: "Regional Branch Office",
   },
   {
@@ -28,7 +27,6 @@ const OFFICES = [
     state: "Madhya Pradesh",
     address: "Regional Office, Bhopal",
     phone: "+91-84232-15047",
-    email: "",
     details: "Regional Branch Office",
   },
 ];
@@ -42,7 +40,7 @@ const SERVICES = [
     type: "Manpower & Contract Services", icon: "⚙️",
   },
   {
-    name: "Director General NCC",
+    name: "Director General NCC (DGNCC)",
     coordinates: [77.1855, 28.5986],
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Defence",
     orgName: "Director General of National Cadet Corps (DGNCC)", zone: "Delhi",
@@ -50,7 +48,7 @@ const SERVICES = [
   },
   {
     name: "NPCIL – Rawatbhata",
-    coordinates: [75.5937, 24.9200],
+    coordinates: [75.5937, 24.92],
     orgType: "Central PSU", ministry: "PMO", department: "Department of Atomic Energy",
     orgName: "Nuclear Power Corporation of India Limited", zone: "Rajasthan",
     type: "Contract Staffing & Compliance", icon: "⚛️",
@@ -86,532 +84,369 @@ const SERVICES = [
 ];
 
 export default function IndiaMap() {
-  const [activeOffice,  setActiveOffice]  = useState(null);
-  const [activeService, setActiveService] = useState(null);
-  const [filter, setFilter] = useState("all");
-  const [hoveredItem, setHoveredItem] = useState(null);
+  const [filter, setFilter]     = useState("all");
+  const [hovered, setHovered]   = useState(null); // { loc, x, y }
 
   const showOffices  = filter === "all" || filter === "office";
   const showServices = filter === "all" || filter === "service";
 
-  const close = () => { setActiveOffice(null); setActiveService(null); };
-  const handleOfficeClick  = (i) => { setActiveOffice(activeOffice === i ? null : i); setActiveService(null); };
-  const handleServiceClick = (i) => { setActiveService(activeService === i ? null : i); setActiveOffice(null); };
-
-  const activeLoc = activeOffice !== null
-    ? { ...OFFICES[activeOffice],  kind: "office"  }
-    : activeService !== null
-    ? { ...SERVICES[activeService], kind: "service" }
-    : null;
+  const handleEnter = (loc, e) => {
+    const rect = e.currentTarget.closest("svg")?.getBoundingClientRect()
+               || e.currentTarget.getBoundingClientRect();
+    const svgEl = e.currentTarget.closest("svg");
+    const ctRect = e.currentTarget.getBoundingClientRect();
+    setHovered({
+      loc,
+      x: ctRect.left - (svgEl ? svgEl.getBoundingClientRect().left : 0),
+      y: ctRect.top  - (svgEl ? svgEl.getBoundingClientRect().top  : 0),
+    });
+  };
+  const handleLeave = () => setHovered(null);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
-        *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ━━━ SECTION ━━━ */
+        /* ── SECTION ── */
         .imap {
-          font-family:'DM Sans',sans-serif;
+          font-family: 'DM Sans', sans-serif;
           background: #060d1f;
-          background-image:
-            radial-gradient(ellipse 80% 60% at 20% 0%, rgba(30,58,138,0.35) 0%, transparent 60%),
-            radial-gradient(ellipse 60% 50% at 80% 100%, rgba(14,36,99,0.3) 0%, transparent 55%);
-          padding: 88px 24px 100px;
-          position: relative;
-          overflow: hidden;
+          padding: 80px 24px 96px;
+          position: relative; overflow: hidden;
         }
-
-        /* Fine grid texture */
         .imap::before {
-          content:'';
-          position:absolute; inset:0; pointer-events:none;
+          content: ''; position: absolute; inset: 0; pointer-events: none;
           background-image:
-            linear-gradient(rgba(99,140,255,0.04) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(99,140,255,0.04) 1px, transparent 1px);
+            linear-gradient(rgba(96,165,250,0.04) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(96,165,250,0.04) 1px, transparent 1px);
           background-size: 52px 52px;
         }
+        .imap-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
 
-        /* Decorative orbs */
-        .imap-orb {
-          position:absolute; border-radius:50%; pointer-events:none;
-          filter: blur(70px);
-        }
-
-        /* ━━━ HEADER ━━━ */
-        .imap-hd { text-align:center; margin-bottom:52px; position:relative; z-index:2; }
-
+        /* ── HEADER ── */
+        .imap-hd { text-align: center; margin-bottom: 48px; position: relative; z-index: 2; }
         .imap-eyebrow {
-          display:inline-flex; align-items:center; gap:10px;
-          border:1px solid rgba(99,140,255,0.25);
-          background:rgba(99,140,255,0.07);
-          backdrop-filter:blur(10px);
-          color:#93b4ff; font-size:10px; letter-spacing:4px; text-transform:uppercase;
-          padding:7px 20px; font-weight:600; margin-bottom:20px;
-          border-radius:2px;
+          display: inline-flex; align-items: center; gap: 10px;
+          border: 1px solid rgba(96,165,250,0.22); background: rgba(96,165,250,0.06);
+          color: #93c5fd; font-size: 10px; letter-spacing: 4px; text-transform: uppercase;
+          padding: 7px 20px; font-weight: 600; margin-bottom: 18px; border-radius: 2px;
         }
         .imap-pulse {
-          width:6px; height:6px; border-radius:50%; background:#60a5fa;
-          animation:imPulse 2.2s ease-in-out infinite;
+          width: 6px; height: 6px; border-radius: 50%; background: #60a5fa; flex-shrink: 0;
+          animation: imPulse 2.2s ease-in-out infinite;
         }
         @keyframes imPulse {
-          0%,100%{ box-shadow:0 0 0 0 rgba(96,165,250,0.7); opacity:1; }
-          50%    { box-shadow:0 0 0 6px rgba(96,165,250,0);  opacity:0.5; }
+          0%,100% { box-shadow: 0 0 0 0 rgba(96,165,250,0.7); }
+          50%     { box-shadow: 0 0 0 7px rgba(96,165,250,0); }
         }
+        .imap-h2 {
+          font-family: 'Cinzel', serif;
+          font-size: clamp(26px,4vw,48px); font-weight: 700; color: #fff;
+          letter-spacing: 1px; line-height: 1.15; margin-bottom: 12px;
+        }
+        .imap-h2 span { color: #60a5fa; }
+        .imap-sub { font-size: 15px; color: rgba(255,255,255,0.38); max-width: 460px; margin: 0 auto; line-height: 1.8; font-weight: 300; }
+        .imap-divider { display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 18px; }
+        .imap-divider-line   { width: 56px; height: 1px; background: linear-gradient(90deg,transparent,rgba(96,165,250,0.35)); }
+        .imap-divider-line.r { background: linear-gradient(90deg,rgba(96,165,250,0.35),transparent); }
+        .imap-divider-gem    { width: 6px; height: 6px; background: #60a5fa; transform: rotate(45deg); opacity: .6; }
 
-        .imap-h1 {
-          font-family:'Cinzel',serif;
-          font-size:clamp(28px,4.5vw,52px);
-          font-weight:700;
-          color:#fff;
-          letter-spacing:1px;
-          line-height:1.15;
-          margin-bottom:14px;
-        }
-        .imap-h1 span { color:#60a5fa; }
-
-        .imap-sub {
-          font-size:15px; color:rgba(255,255,255,0.4);
-          max-width:480px; margin:0 auto; line-height:1.8; font-weight:300;
-        }
-
-        /* Decorative rule */
-        .imap-rule {
-          display:flex; align-items:center; justify-content:center; gap:16px;
-          margin-top:20px;
-        }
-        .imap-rule-line { width:60px; height:1px; background:linear-gradient(90deg,transparent,rgba(99,140,255,0.4)); }
-        .imap-rule-line.r { background:linear-gradient(90deg,rgba(99,140,255,0.4),transparent); }
-        .imap-rule-diamond {
-          width:6px; height:6px; background:#60a5fa;
-          transform:rotate(45deg); opacity:0.7;
-        }
-
-        /* ━━━ FILTERS ━━━ */
-        .imap-filters {
-          display:flex; justify-content:center; gap:8px; flex-wrap:wrap;
-          margin-bottom:40px; position:relative; z-index:2;
-        }
+        /* ── FILTERS ── */
+        .imap-filters { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; position: relative; z-index: 2; }
         .imap-btn {
-          display:inline-flex; align-items:center; gap:8px;
-          padding:9px 22px; font-size:11.5px; font-weight:600;
-          border:1px solid rgba(255,255,255,0.1);
-          background:rgba(255,255,255,0.04);
-          color:rgba(255,255,255,0.5);
-          cursor:pointer; transition:all 0.25s;
-          font-family:'DM Sans',sans-serif;
-          border-radius:2px; letter-spacing:0.3px;
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 9px 22px; font-size: 11.5px; font-weight: 600;
+          border: 1px solid rgba(255,255,255,0.08); background: rgba(255,255,255,0.03);
+          color: rgba(255,255,255,0.45); cursor: pointer; transition: all .22s;
+          border-radius: 2px; font-family: 'DM Sans', sans-serif;
         }
-        .imap-btn:hover { border-color:rgba(255,255,255,0.22); color:rgba(255,255,255,0.85); background:rgba(255,255,255,0.08); }
-        .imap-btn.active-all {
-          background:linear-gradient(135deg,#1e3a8a,#1d4ed8);
-          border-color:#3b82f6; color:#fff;
-          box-shadow:0 4px 20px rgba(37,99,235,0.35);
-        }
-        .imap-btn.active-off {
-          background:linear-gradient(135deg,#7f1d1d,#dc2626);
-          border-color:#ef4444; color:#fff;
-          box-shadow:0 4px 20px rgba(220,38,38,0.35);
-        }
-        .imap-btn.active-svc {
-          background:linear-gradient(135deg,#1e3a8a,#2563eb);
-          border-color:#60a5fa; color:#fff;
-          box-shadow:0 4px 20px rgba(96,165,250,0.3);
-        }
-        .ibtn-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+        .imap-btn:hover { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.07); }
+        .imap-btn.a-all { background: linear-gradient(135deg,#1e3a8a,#1d4ed8); border-color: #3b82f6; color: #fff; box-shadow: 0 4px 20px rgba(37,99,235,.35); }
+        .imap-btn.a-off { background: linear-gradient(135deg,#7f1d1d,#dc2626); border-color: #ef4444; color: #fff; box-shadow: 0 4px 20px rgba(220,38,38,.35); }
+        .imap-btn.a-svc { background: linear-gradient(135deg,#1e3a8a,#2563eb); border-color: #60a5fa; color: #fff; box-shadow: 0 4px 20px rgba(96,165,250,.28); }
+        .btn-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-        /* ━━━ LAYOUT ━━━ */
-        .imap-grid {
-          max-width:1300px; margin:0 auto;
-          display:grid; grid-template-columns:1fr;
-          gap:20px; position:relative; z-index:2;
-        }
-        @media(min-width:1060px){ .imap-grid { grid-template-columns:1fr 340px; } }
+        /* ── LAYOUT ── */
+        .imap-grid { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; position: relative; z-index: 2; }
+        @media (min-width: 1060px) { .imap-grid { grid-template-columns: 1fr 340px; } }
 
-        /* ━━━ MAP CARD ━━━ */
+        /* ── MAP CARD ── */
         .imap-card {
-          border-radius:16px; overflow:hidden;
-          border:1px solid rgba(99,140,255,0.18);
-          background:rgba(8,18,52,0.7);
-          backdrop-filter:blur(20px);
-          box-shadow:
-            0 0 0 1px rgba(99,140,255,0.06),
-            0 24px 80px rgba(0,0,0,0.5),
-            inset 0 1px 0 rgba(255,255,255,0.06);
-          position:relative;
+          border-radius: 16px; overflow: hidden;
+          border: 1px solid rgba(96,165,250,0.15);
+          background: rgba(6,14,40,0.75); backdrop-filter: blur(20px);
+          box-shadow: 0 0 0 1px rgba(96,165,250,0.05), 0 24px 80px rgba(0,0,0,.55),
+                      inset 0 1px 0 rgba(255,255,255,.05);
         }
-
-        /* Top chrome bar */
         .imap-chrome {
-          padding:14px 20px;
-          display:flex; align-items:center; justify-content:space-between;
-          border-bottom:1px solid rgba(99,140,255,0.1);
-          background:rgba(255,255,255,0.02);
+          padding: 13px 20px; display: flex; align-items: center; justify-content: space-between;
+          border-bottom: 1px solid rgba(96,165,250,0.1); background: rgba(255,255,255,0.02);
         }
-        .imap-chrome-dots { display:flex; gap:6px; }
-        .imap-chrome-dot {
-          width:10px; height:10px; border-radius:50%;
+        .chrome-dots { display: flex; gap: 6px; }
+        .chrome-dot  { width: 10px; height: 10px; border-radius: 50%; }
+        .chrome-label {
+          font-size: 10.5px; letter-spacing: 3px; text-transform: uppercase;
+          color: rgba(255,255,255,0.22); font-weight: 600;
+          display: flex; align-items: center; gap: 10px;
         }
-        .imap-chrome-title {
-          font-size:11px; letter-spacing:3px; text-transform:uppercase;
-          color:rgba(255,255,255,0.25); font-weight:600;
-          display:flex; align-items:center; gap:10px;
-        }
-        .imap-chrome-title::before, .imap-chrome-title::after {
-          content:''; width:20px; height:1px; background:rgba(99,140,255,0.2);
-        }
-        .imap-chrome-stats { display:flex; gap:20px; }
-        .chrome-stat { display:flex; align-items:center; gap:6px; font-size:11px; font-weight:600; }
-        .chrome-stat-dot { width:7px; height:7px; border-radius:50%; }
-        .chrome-stat-num { color:rgba(255,255,255,0.7); }
-        .chrome-stat-lbl { color:rgba(255,255,255,0.3); }
+        .chrome-label::before,.chrome-label::after { content: ''; width: 18px; height: 1px; background: rgba(96,165,250,0.18); }
+        .chrome-stats { display: flex; gap: 18px; }
+        .chrome-stat  { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 600; }
+        .chrome-stat-dot { width: 7px; height: 7px; border-radius: 50%; }
+        .chrome-num { color: rgba(255,255,255,0.7); }
+        .chrome-lbl { color: rgba(255,255,255,0.28); }
 
         /* Map canvas */
         .imap-canvas {
-          position:relative;
-          background:
-            radial-gradient(ellipse 100% 100% at 50% 50%, #0c1d4d 0%, #060e28 100%);
-          padding:0;
+          background: radial-gradient(ellipse 100% 100% at 50% 50%, #0c1d4d 0%, #050d26 100%);
+          position: relative;
         }
-
-        /* Vignette overlay */
         .imap-canvas::after {
-          content:''; position:absolute; inset:0; pointer-events:none; z-index:1;
-          background:radial-gradient(ellipse 90% 90% at 50% 50%, transparent 55%, rgba(4,8,24,0.6) 100%);
+          content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 1;
+          background: radial-gradient(ellipse 88% 88% at 50% 50%, transparent 52%, rgba(3,7,20,.65) 100%);
         }
 
-        /* ━━━ LEGEND ━━━ */
+        /* ── HOVER CARD (tooltip) ── */
+        .imap-hovercard {
+          position: absolute;
+          z-index: 50;
+          width: 300px;
+          background: rgba(7,14,46,0.98);
+          border: 1px solid rgba(96,165,250,0.22);
+          border-radius: 14px; overflow: hidden;
+          box-shadow: 0 20px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(96,165,250,0.06),
+                      inset 0 1px 0 rgba(255,255,255,0.06);
+          pointer-events: none;
+          animation: hcIn .18s cubic-bezier(0.34,1.56,0.64,1);
+          transform-origin: bottom center;
+        }
+        @keyframes hcIn {
+          from { opacity: 0; transform: scale(0.88) translateY(8px); }
+          to   { opacity: 1; transform: scale(1)    translateY(0); }
+        }
+        .hc-stripe { height: 3px; }
+        .hc-stripe.off { background: linear-gradient(90deg,#ef4444,#f87171,#fca5a5); }
+        .hc-stripe.svc { background: linear-gradient(90deg,#1d4ed8,#3b82f6,#93c5fd); }
+
+        .hc-head {
+          padding: 14px 16px 12px;
+          display: flex; align-items: center; gap: 12px;
+          border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .hc-icon {
+          width: 40px; height: 40px; border-radius: 11px; flex-shrink: 0;
+          display: flex; align-items: center; justify-content: center; font-size: 19px;
+          border: 1px solid rgba(255,255,255,0.07);
+        }
+        .hc-icon.off { background: rgba(239,68,68,0.12); }
+        .hc-icon.svc { background: rgba(59,130,246,0.12); }
+        .hc-kicker { font-size: 8px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 4px; display: block; }
+        .hc-kicker.off { color: #f87171; }
+        .hc-kicker.svc { color: #93c5fd; }
+        .hc-name { font-family: 'Cinzel', serif; font-size: 13px; font-weight: 700; color: #fff; line-height: 1.25; }
+
+        .hc-body { padding: 12px 16px 14px; }
+        .hc-pill {
+          display: inline-flex; align-items: center; gap: 6px;
+          padding: 5px 11px; border-radius: 4px; margin-bottom: 12px;
+          font-size: 11px; font-weight: 600;
+        }
+        .hc-pill.off { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); color: #f87171; }
+        .hc-pill.svc { background: rgba(59,130,246,0.08); border: 1px solid rgba(59,130,246,0.18); color: #93c5fd; }
+
+        .hc-table { border-radius: 8px; overflow: hidden; border: 1px solid rgba(96,165,250,0.1); margin-bottom: 12px; }
+        .hc-table-head {
+          padding: 7px 12px; background: rgba(255,255,255,0.03);
+          border-bottom: 1px solid rgba(96,165,250,0.08);
+          font-size: 8.5px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+          color: rgba(255,255,255,0.28); display: flex; align-items: center; gap: 6px;
+        }
+        .hc-row { display: grid; grid-template-columns: 90px 1fr; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 11.5px; }
+        .hc-row:last-child { border-bottom: none; }
+        .hc-key { padding: 8px 10px; color: rgba(255,255,255,0.28); font-size: 10.5px; font-weight: 500; border-right: 1px solid rgba(255,255,255,0.04); }
+        .hc-val { padding: 8px 10px; color: rgba(255,255,255,0.78); font-weight: 500; line-height: 1.4; font-size: 11px; }
+        .hc-val.bold { color: #fff; font-weight: 700; }
+
+        .hc-cta {
+          display: flex; align-items: center; justify-content: center; gap: 8px;
+          width: 100%; padding: 10px 14px; border-radius: 7px; border: none;
+          background: linear-gradient(135deg,#1e3a8a,#2563eb);
+          color: #fff; font-size: 12px; font-weight: 600;
+          text-decoration: none; font-family: 'DM Sans', sans-serif;
+          box-shadow: 0 3px 14px rgba(37,99,235,.3);
+        }
+
+        /* pointer-events on the cta need to work even inside pointer-events:none card */
+        .imap-hovercard.pinned { pointer-events: auto; }
+
+        /* ── LEGEND ── */
         .imap-legend {
-          display:flex; gap:28px; flex-wrap:wrap; align-items:center; justify-content:center;
-          padding:14px 20px 16px;
-          border-top:1px solid rgba(99,140,255,0.1);
-          background:rgba(255,255,255,0.015);
+          display: flex; gap: 28px; flex-wrap: wrap; align-items: center; justify-content: center;
+          padding: 13px 20px 15px;
+          border-top: 1px solid rgba(96,165,250,0.08); background: rgba(255,255,255,0.015);
         }
-        .leg-item { display:flex; align-items:center; gap:9px; font-size:11.5px; font-weight:500; color:rgba(255,255,255,0.45); }
-        .leg-pin {
-          width:14px; height:20px; position:relative; flex-shrink:0;
-          display:flex; align-items:flex-start; justify-content:center;
+        .leg-item { display: flex; align-items: center; gap: 9px; font-size: 11.5px; font-weight: 500; color: rgba(255,255,255,0.38); }
+        .leg-state { width: 14px; height: 14px; border-radius: 3px; background: linear-gradient(135deg,#2452a4,#1a3a7c); border: 1px solid rgba(96,165,250,0.3); flex-shrink: 0; }
+        .imap-hint {
+          text-align: center; font-size: 11px; color: rgba(255,255,255,0.16); letter-spacing: 1px;
+          padding: 10px 0 2px; display: flex; align-items: center; justify-content: center; gap: 8px;
         }
+        .imap-hint::before,.imap-hint::after { content: ''; width: 28px; height: 1px; background: rgba(96,165,250,0.12); }
 
-        /* ━━━ RIGHT PANEL ━━━ */
-        .imap-panel { display:flex; flex-direction:column; gap:16px; }
-
-        /* Stats row */
-        .imap-stats { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+        /* ── RIGHT PANEL ── */
+        .imap-panel { display: flex; flex-direction: column; gap: 16px; }
+        .imap-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .imap-stat {
-          border-radius:12px; padding:20px 16px; text-align:center;
-          border:1px solid rgba(99,140,255,0.12);
-          background:rgba(8,18,52,0.7);
-          backdrop-filter:blur(20px);
-          position:relative; overflow:hidden;
-          box-shadow:0 8px 32px rgba(0,0,0,0.3);
+          border-radius: 12px; padding: 20px 16px; text-align: center;
+          border: 1px solid rgba(96,165,250,0.1); background: rgba(6,14,40,0.75);
+          backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,.3);
+          position: relative; overflow: hidden;
         }
-        .imap-stat::before {
-          content:''; position:absolute; inset:0;
-          background:radial-gradient(ellipse at 50% 0%, rgba(99,140,255,0.08), transparent 70%);
-        }
-        .imap-stat-val {
-          font-family:'Cinzel',serif; font-size:38px; font-weight:700; line-height:1;
-          position:relative;
-        }
-        .imap-stat.red .imap-stat-val  { color:#f87171; }
-        .imap-stat.blue .imap-stat-val { color:#60a5fa; }
-        .imap-stat-lbl { font-size:10px; font-weight:600; letter-spacing:2px; text-transform:uppercase; margin-top:6px; color:rgba(255,255,255,0.3); position:relative; }
-        .imap-stat-bar { height:2px; border-radius:1px; margin-top:14px; position:relative; }
-        .imap-stat.red  .imap-stat-bar { background:linear-gradient(90deg,#ef4444,#fca5a5,transparent); }
-        .imap-stat.blue .imap-stat-bar { background:linear-gradient(90deg,#3b82f6,#93c5fd,transparent); }
+        .imap-stat::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 0%,rgba(96,165,250,0.07),transparent 65%); }
+        .stat-val { font-family: 'Cinzel', serif; font-size: 38px; font-weight: 700; line-height: 1; position: relative; }
+        .imap-stat.red  .stat-val { color: #f87171; }
+        .imap-stat.blue .stat-val { color: #60a5fa; }
+        .stat-lbl { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; margin-top: 6px; color: rgba(255,255,255,0.28); position: relative; }
+        .stat-bar { height: 2px; border-radius: 1px; margin-top: 14px; position: relative; }
+        .imap-stat.red  .stat-bar { background: linear-gradient(90deg,#ef4444,#fca5a5,transparent); }
+        .imap-stat.blue .stat-bar { background: linear-gradient(90deg,#3b82f6,#93c5fd,transparent); }
 
-        /* Directory card */
         .imap-dir {
-          border-radius:12px; overflow:hidden; flex:1;
-          border:1px solid rgba(99,140,255,0.12);
-          background:rgba(8,18,52,0.7);
-          backdrop-filter:blur(20px);
-          box-shadow:0 8px 32px rgba(0,0,0,0.3);
+          border-radius: 12px; overflow: hidden; flex: 1;
+          border: 1px solid rgba(96,165,250,0.1); background: rgba(6,14,40,0.75);
+          backdrop-filter: blur(20px); box-shadow: 0 8px 32px rgba(0,0,0,.3);
         }
-        .imap-dir-head {
-          padding:14px 18px;
-          background:linear-gradient(135deg, rgba(15,30,80,0.9), rgba(10,20,60,0.9));
-          border-bottom:1px solid rgba(99,140,255,0.12);
-          display:flex; align-items:center; gap:10px;
+        .dir-head {
+          padding: 13px 18px; background: linear-gradient(135deg,rgba(15,30,80,.95),rgba(8,18,52,.95));
+          border-bottom: 1px solid rgba(96,165,250,0.1); display: flex; align-items: center; gap: 10px;
         }
-        .imap-dir-title {
-          font-family:'Cinzel',serif; font-size:12px; font-weight:600;
-          color:rgba(255,255,255,0.8); letter-spacing:1px;
-        }
-        .imap-dir-cnt {
-          margin-left:auto;
-          background:rgba(59,130,246,0.2); border:1px solid rgba(59,130,246,0.3);
-          color:#93c5fd; font-size:10px; font-weight:700;
-          padding:2px 10px; border-radius:20px;
-        }
-
-        .imap-dir-body { max-height:420px; overflow-y:auto; }
-        .imap-dir-body::-webkit-scrollbar { width:2px; }
-        .imap-dir-body::-webkit-scrollbar-track { background:transparent; }
-        .imap-dir-body::-webkit-scrollbar-thumb { background:rgba(99,140,255,0.3); border-radius:2px; }
+        .dir-title { font-family: 'Cinzel', serif; font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.75); letter-spacing: 1px; }
+        .dir-count { margin-left: auto; background: rgba(59,130,246,0.18); border: 1px solid rgba(59,130,246,0.28); color: #93c5fd; font-size: 10px; font-weight: 700; padding: 2px 10px; border-radius: 20px; }
+        .dir-body { max-height: 430px; overflow-y: auto; }
+        .dir-body::-webkit-scrollbar { width: 2px; }
+        .dir-body::-webkit-scrollbar-thumb { background: rgba(96,165,250,0.25); border-radius: 2px; }
 
         .dir-item {
-          display:flex; align-items:center; gap:12px;
-          padding:12px 18px; border-bottom:1px solid rgba(255,255,255,0.04);
-          cursor:pointer; transition:all 0.2s;
-          position:relative;
+          display: flex; align-items: center; gap: 12px;
+          padding: 12px 18px; border-bottom: 1px solid rgba(255,255,255,0.04);
+          cursor: pointer; transition: background .18s; position: relative;
         }
-        .dir-item:last-child { border-bottom:none; }
-        .dir-item::before {
-          content:''; position:absolute; left:0; top:0; bottom:0; width:0;
-          background:linear-gradient(180deg,#ef4444,#f87171);
-          transition:width 0.2s;
-        }
-        .dir-item.svc::before { background:linear-gradient(180deg,#3b82f6,#60a5fa); }
-        .dir-item:hover { background:rgba(255,255,255,0.03); }
-        .dir-item:hover::before { width:2px; }
-        .dir-item.act { background:rgba(239,68,68,0.06); }
-        .dir-item.act::before { width:3px; }
-        .dir-item.act.svc { background:rgba(59,130,246,0.06); }
+        .dir-item::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0; transition: width .2s; }
+        .dir-item.off-item::before { background: linear-gradient(180deg,#ef4444,#f87171); }
+        .dir-item.svc-item::before { background: linear-gradient(180deg,#3b82f6,#60a5fa); }
+        .dir-item:last-child { border-bottom: none; }
+        .dir-item:hover { background: rgba(255,255,255,0.04); }
+        .dir-item:hover::before { width: 2px; }
+        .dir-avatar { width: 36px; height: 36px; border-radius: 10px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 16px; border: 1px solid rgba(255,255,255,0.06); }
+        .dir-avatar.off { background: rgba(239,68,68,0.1); }
+        .dir-avatar.svc { background: rgba(59,130,246,0.1); }
+        .dir-name { font-size: 12px; font-weight: 600; color: rgba(255,255,255,0.8); line-height: 1.35; margin-bottom: 2px; }
+        .dir-sub  { font-size: 10px; color: rgba(255,255,255,0.28); }
+        .dir-tag  { margin-left: auto; flex-shrink: 0; font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 2px; }
+        .dir-tag.off { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.18); }
+        .dir-tag.svc { background: rgba(59,130,246,0.1); color: #93c5fd; border: 1px solid rgba(59,130,246,0.18); }
 
-        .dir-avatar {
-          width:36px; height:36px; border-radius:10px; flex-shrink:0;
-          display:flex; align-items:center; justify-content:center; font-size:16px;
-          border:1px solid rgba(255,255,255,0.06);
+        @keyframes pinDrop {
+          0%   { transform: scale(0) translateY(-10px); opacity: 0; }
+          65%  { transform: scale(1.18) translateY(2px); }
+          100% { transform: scale(1) translateY(0); opacity: 1; }
         }
-        .dir-avatar.off { background:rgba(239,68,68,0.1); }
-        .dir-avatar.svc { background:rgba(59,130,246,0.1); }
-
-        .dir-name {
-          font-family:'DM Sans',sans-serif; font-size:12px; font-weight:600;
-          color:rgba(255,255,255,0.8); line-height:1.35; margin-bottom:2px;
-        }
-        .dir-sub { font-size:10px; color:rgba(255,255,255,0.3); }
-        .dir-tag {
-          margin-left:auto; flex-shrink:0;
-          font-size:8px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
-          padding:3px 8px; border-radius:2px;
-        }
-        .dir-tag.off { background:rgba(239,68,68,0.12); color:#f87171; border:1px solid rgba(239,68,68,0.2); }
-        .dir-tag.svc { background:rgba(59,130,246,0.12); color:#93c5fd; border:1px solid rgba(59,130,246,0.2); }
-
-        /* Hint text */
-        .imap-hint {
-          text-align:center; font-size:11px; color:rgba(255,255,255,0.18);
-          letter-spacing:1px; padding-bottom:2px; font-weight:500;
-          display:flex; align-items:center; justify-content:center; gap:8px;
-        }
-        .imap-hint::before,.imap-hint::after { content:''; width:30px; height:1px; background:rgba(99,140,255,0.15); }
-
-        /* ━━━ MODAL ━━━ */
-        .imap-overlay {
-          position:fixed; inset:0; z-index:1000;
-          background:rgba(2,6,23,0.75);
-          backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px);
-          display:flex; align-items:center; justify-content:center;
-          padding:20px; animation:imOverlay 0.22s ease;
-        }
-        @keyframes imOverlay { from{opacity:0} to{opacity:1} }
-
-        .imap-modal {
-          width:100%; max-width:480px; border-radius:16px; overflow:hidden;
-          background:rgba(8,16,48,0.97);
-          border:1px solid rgba(99,140,255,0.2);
-          box-shadow:
-            0 0 0 1px rgba(99,140,255,0.06),
-            0 40px 100px rgba(0,0,0,0.7),
-            inset 0 1px 0 rgba(255,255,255,0.07);
-          animation:imModal 0.3s cubic-bezier(0.34,1.56,0.64,1);
-        }
-        @keyframes imModal { from{opacity:0;transform:scale(0.86) translateY(24px)} to{opacity:1;transform:scale(1) translateY(0)} }
-
-        .modal-stripe { height:4px; }
-        .modal-stripe.off { background:linear-gradient(90deg,#ef4444,#f87171,#fca5a5); }
-        .modal-stripe.svc { background:linear-gradient(90deg,#1d4ed8,#3b82f6,#93c5fd); }
-
-        .modal-hd {
-          padding:22px 24px 18px;
-          display:flex; align-items:flex-start; gap:14px;
-          border-bottom:1px solid rgba(255,255,255,0.06);
-        }
-        .modal-hd-icon {
-          width:50px; height:50px; border-radius:14px; flex-shrink:0;
-          display:flex; align-items:center; justify-content:center; font-size:22px;
-          border:1px solid rgba(255,255,255,0.08);
-        }
-        .modal-hd-icon.off { background:rgba(239,68,68,0.1); }
-        .modal-hd-icon.svc { background:rgba(59,130,246,0.1); }
-        .modal-kicker {
-          font-size:8.5px; font-weight:700; letter-spacing:3px; text-transform:uppercase;
-          margin-bottom:6px; display:inline-block;
-        }
-        .modal-kicker.off { color:#f87171; }
-        .modal-kicker.svc { color:#93c5fd; }
-        .modal-name {
-          font-family:'Cinzel',serif; font-size:16px; font-weight:700;
-          color:#fff; line-height:1.3;
-        }
-        .modal-x {
-          margin-left:auto; width:30px; height:30px; border-radius:50%;
-          background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.08);
-          color:rgba(255,255,255,0.4); font-size:14px;
-          cursor:pointer; display:flex; align-items:center; justify-content:center;
-          flex-shrink:0; transition:all 0.2s; font-family:'DM Sans',sans-serif;
-        }
-        .modal-x:hover { background:rgba(239,68,68,0.15); border-color:rgba(239,68,68,0.3); color:#f87171; }
-
-        .modal-body { padding:20px 24px 24px; }
-
-        /* Service pill */
-        .modal-pill {
-          display:inline-flex; align-items:center; gap:8px;
-          padding:7px 14px; border-radius:4px; margin-bottom:18px;
-          font-size:12px; font-weight:600;
-        }
-        .modal-pill.off { background:rgba(239,68,68,0.08); border:1px solid rgba(239,68,68,0.18); color:#f87171; }
-        .modal-pill.svc { background:rgba(59,130,246,0.08); border:1px solid rgba(59,130,246,0.18); color:#93c5fd; }
-
-        /* Org table */
-        .modal-table {
-          border-radius:10px; overflow:hidden;
-          border:1px solid rgba(99,140,255,0.12);
-          margin-bottom:18px;
-        }
-        .modal-table-head {
-          padding:10px 16px;
-          background:rgba(255,255,255,0.03);
-          border-bottom:1px solid rgba(99,140,255,0.1);
-          font-size:10px; font-weight:700; letter-spacing:2.5px;
-          text-transform:uppercase; color:rgba(255,255,255,0.35);
-          display:flex; align-items:center; gap:8px;
-        }
-        .modal-row {
-          display:grid; grid-template-columns:120px 1fr;
-          border-bottom:1px solid rgba(255,255,255,0.04); font-size:12.5px;
-        }
-        .modal-row:last-child { border-bottom:none; }
-        .modal-key { padding:10px 14px; color:rgba(255,255,255,0.3); font-weight:500; font-size:11.5px; border-right:1px solid rgba(255,255,255,0.04); }
-        .modal-val { padding:10px 14px; color:rgba(255,255,255,0.8); font-weight:500; line-height:1.45; }
-        .modal-val.bold { color:#fff; font-weight:700; }
-
-        /* Maps CTA */
-        .modal-cta {
-          display:flex; align-items:center; justify-content:center; gap:10px;
-          width:100%; padding:13px 18px; border-radius:8px; border:none;
-          background:linear-gradient(135deg,#1e3a8a,#2563eb);
-          color:#fff; font-size:13px; font-weight:600;
-          cursor:pointer; text-decoration:none;
-          transition:all 0.25s; font-family:'DM Sans',sans-serif;
-          box-shadow:0 4px 20px rgba(37,99,235,0.3);
-        }
-        .modal-cta:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(37,99,235,0.45); background:linear-gradient(135deg,#1d4ed8,#3b82f6); }
-
-        @keyframes pinPop { 0%{transform:scale(0) translateY(10px);opacity:0} 65%{transform:scale(1.2) translateY(-3px)} 100%{transform:scale(1) translateY(0);opacity:1} }
       `}</style>
 
       <section className="imap">
-        {/* Background orbs */}
-        <div className="imap-orb" style={{width:700,height:700,top:-250,left:-150,background:"radial-gradient(circle,rgba(30,58,138,0.25) 0%,transparent 60%)"}}/>
-        <div className="imap-orb" style={{width:500,height:500,bottom:-200,right:"-5%",background:"radial-gradient(circle,rgba(14,36,99,0.2) 0%,transparent 60%)"}}/>
-        <div className="imap-orb" style={{width:300,height:300,top:"40%",right:"20%",background:"radial-gradient(circle,rgba(37,99,235,0.08) 0%,transparent 65%)"}}/>
+        <div className="imap-orb" style={{ width:700,height:700,top:-280,left:-160,background:"radial-gradient(circle,rgba(29,78,216,0.2) 0%,transparent 62%)" }} />
+        <div className="imap-orb" style={{ width:500,height:500,bottom:-200,right:"-8%",background:"radial-gradient(circle,rgba(14,36,99,0.18) 0%,transparent 62%)" }} />
 
-        {/* ── HEADER ── */}
+        {/* HEADER */}
         <div className="imap-hd">
-          <div className="imap-eyebrow">
-            <span className="imap-pulse"/>
-            National Presence
-          </div>
-          <h2 className="imap-h1">Where We <span>Operate</span></h2>
-          <p className="imap-sub">Offices and active deployments across Central Government, Defence & PSU organisations across India.</p>
-          <div className="imap-rule">
-            <div className="imap-rule-line"/>
-            <div className="imap-rule-diamond"/>
-            <div className="imap-rule-line r"/>
+          <div className="imap-eyebrow"><span className="imap-pulse" />National Presence</div>
+          <h2 className="imap-h2">Where We <span>Operate</span></h2>
+          <p className="imap-sub">Offices and active deployments across Central Government, Defence &amp; PSU organisations pan-India.</p>
+          <div className="imap-divider">
+            <div className="imap-divider-line" />
+            <div className="imap-divider-gem" />
+            <div className="imap-divider-line r" />
           </div>
         </div>
 
-        {/* ── FILTERS ── */}
+        {/* FILTERS */}
         <div className="imap-filters">
           {[
-            {k:"all",     l:"All Locations",  a:"active-all", d:"#60a5fa"},
-            {k:"office",  l:"Our Offices",    a:"active-off", d:"#f87171"},
-            {k:"service", l:"Service Sites",  a:"active-svc", d:"#93c5fd"},
-          ].map(f=>(
+            { k:"all",    l:"All Locations", a:"a-all", d:"#60a5fa" },
+            { k:"office", l:"Our Offices",   a:"a-off", d:"#f87171" },
+            { k:"service",l:"Service Sites", a:"a-svc", d:"#93c5fd" },
+          ].map((f) => (
             <button key={f.k} className={`imap-btn${filter===f.k?" "+f.a:""}`} onClick={()=>setFilter(f.k)}>
-              <span className="ibtn-dot" style={{background:filter===f.k?"#fff":f.d, opacity:filter===f.k?1:0.6}}/>
+              <span className="btn-dot" style={{background:filter===f.k?"#fff":f.d,opacity:filter===f.k?1:0.6}} />
               {f.l}
             </button>
           ))}
         </div>
 
-        {/* ── MAIN GRID ── */}
+        {/* GRID */}
         <div className="imap-grid">
 
           {/* MAP CARD */}
           <div className="imap-card">
-
-            {/* Chrome top bar */}
             <div className="imap-chrome">
-              <div className="imap-chrome-dots">
-                <div className="imap-chrome-dot" style={{background:"#ff5f57"}}/>
-                <div className="imap-chrome-dot" style={{background:"#ffbd2e"}}/>
-                <div className="imap-chrome-dot" style={{background:"#28c840"}}/>
+              <div className="chrome-dots">
+                <div className="chrome-dot" style={{background:"#ff5f57"}} />
+                <div className="chrome-dot" style={{background:"#ffbd2e"}} />
+                <div className="chrome-dot" style={{background:"#28c840"}} />
               </div>
-              <div className="imap-chrome-title">India — Geographic Coverage</div>
-              <div className="imap-chrome-stats">
-                <div className="chrome-stat">
-                  <div className="chrome-stat-dot" style={{background:"#f87171"}}/>
-                  <span className="chrome-stat-num">{OFFICES.length}</span>
-                  <span className="chrome-stat-lbl">offices</span>
-                </div>
-                <div className="chrome-stat">
-                  <div className="chrome-stat-dot" style={{background:"#60a5fa"}}/>
-                  <span className="chrome-stat-num">{SERVICES.length}</span>
-                  <span className="chrome-stat-lbl">sites</span>
-                </div>
+              <div className="chrome-label">India — Geographic Coverage</div>
+              <div className="chrome-stats">
+                <div className="chrome-stat"><div className="chrome-stat-dot" style={{background:"#f87171"}} /><span className="chrome-num">{OFFICES.length}</span><span className="chrome-lbl">offices</span></div>
+                <div className="chrome-stat"><div className="chrome-stat-dot" style={{background:"#60a5fa"}} /><span className="chrome-num">{SERVICES.length}</span><span className="chrome-lbl">sites</span></div>
               </div>
             </div>
 
-            {/* Map */}
-            <div className="imap-canvas">
+            {/* ── MAP CANVAS (relative so hover card is positioned within it) ── */}
+            <div className="imap-canvas" style={{position:"relative"}}>
               <ComposableMap
                 projection="geoMercator"
-                projectionConfig={{ scale: 1060, center: [82.5, 22] }}
+                projectionConfig={{ scale:1060, center:[82.5,22] }}
                 width={820} height={640}
                 style={{ width:"100%", height:"auto", display:"block" }}
               >
                 <defs>
-                  <linearGradient id="stateGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1a3a7c" stopOpacity="0.9"/>
+                  <linearGradient id="stFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stopColor="#1a3a8a" stopOpacity="0.9"/>
                     <stop offset="100%" stopColor="#0f2255" stopOpacity="0.9"/>
                   </linearGradient>
-                  <linearGradient id="mpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#2452a4"/>
+                  <linearGradient id="mpFill" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%"   stopColor="#2452a4"/>
                     <stop offset="100%" stopColor="#1a3a7c"/>
                   </linearGradient>
                   <filter id="glow-red">
-                    <feGaussianBlur stdDeviation="3" result="blur"/>
+                    <feGaussianBlur stdDeviation="2.5" result="blur"/>
                     <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                   <filter id="glow-blue">
-                    <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                    <feGaussianBlur stdDeviation="2" result="blur"/>
                     <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
                   </filter>
                 </defs>
 
                 <Geographies geography={geoUrl}>
                   {({ geographies }) =>
-                    geographies.map(geo => {
-                      const isMP = geo.properties.NAME_1 === "Madhya Pradesh"
-                        || geo.properties.ST_NM === "Madhya Pradesh"
-                        || geo.properties.name === "Madhya Pradesh";
+                    geographies.map((geo) => {
+                      const isMP = ["Madhya Pradesh"].includes(
+                        geo.properties.NAME_1 || geo.properties.ST_NM || geo.properties.name
+                      );
                       return (
                         <Geography
                           key={geo.rsmKey}
                           geography={geo}
-                          fill={isMP ? "url(#mpGrad)" : "url(#stateGrad)"}
-                          stroke="rgba(99,140,255,0.25)"
+                          fill={isMP ? "url(#mpFill)" : "url(#stFill)"}
+                          stroke="rgba(96,165,250,0.22)"
                           strokeWidth={0.6}
                           style={{
-                            default:{ outline:"none" },
-                            hover:  { fill: isMP?"#2d5bbf":"#1e4591", outline:"none", cursor:"default" },
-                            pressed:{ outline:"none" },
+                            default: { outline:"none" },
+                            hover:   { fill: isMP?"#2d5bbf":"#1e4591", outline:"none", cursor:"default" },
+                            pressed: { outline:"none" },
                           }}
                         />
                       );
@@ -619,149 +454,181 @@ export default function IndiaMap() {
                   }
                 </Geographies>
 
-                {/* OFFICE MARKERS — Glowing red pin */}
+                {/* ── OFFICE MARKERS (red pin-drop) ── */}
                 {showOffices && OFFICES.map((o, i) => (
                   <Marker key={`o${i}`} coordinates={o.coordinates}>
                     <g
-                      style={{ cursor:"pointer", animation:`pinPop 0.45s cubic-bezier(0.34,1.56,0.64,1) ${i*100}ms both` }}
-                      onClick={() => handleOfficeClick(i)}
+                      style={{ cursor:"pointer", animation:`pinDrop .4s cubic-bezier(0.34,1.56,0.64,1) ${i*90}ms both` }}
+                      onMouseEnter={(e) => setHovered({ loc:{ ...o, kind:"office" }, markerId:`o${i}` })}
+                      onMouseLeave={() => setHovered(null)}
+                      onClick={() => window.open(`https://www.google.com/maps?q=${o.coordinates[1]},${o.coordinates[0]}`, "_blank")}
                       filter="url(#glow-red)"
                     >
                       {/* Pulse ring */}
-                      <circle r={0} fill="none" stroke="#ef4444" strokeWidth={1}>
-                        <animate attributeName="r" values="0;22;0" dur="2.5s" repeatCount="indefinite" begin={`${i*0.4}s`}/>
-                        <animate attributeName="opacity" values="0.8;0;0.8" dur="2.5s" repeatCount="indefinite" begin={`${i*0.4}s`}/>
+                      <circle r={0} fill="none" stroke="#ef4444" strokeWidth={1.2} opacity={0.7}>
+                        <animate attributeName="r"       values="0;22;0"     dur="2.6s" repeatCount="indefinite" begin={`${i*0.5}s`}/>
+                        <animate attributeName="opacity" values="0.7;0;0.7"  dur="2.6s" repeatCount="indefinite" begin={`${i*0.5}s`}/>
                       </circle>
-                      {/* Outer halo */}
-                      <circle r={activeOffice===i?17:12} fill="rgba(239,68,68,0.15)" stroke="rgba(239,68,68,0.3)" strokeWidth={1}/>
-                      {/* Pin body */}
-                      <circle r={activeOffice===i?10:7} fill={activeOffice===i?"#ef4444":"#dc2626"} stroke="#fff" strokeWidth={2}/>
-                      {/* Pin tail */}
-                      <polygon
-                        points={activeOffice===i
-                          ? "0,26 -6,12 6,12"
-                          : "0,19 -4.5,9 4.5,9"
-                        }
-                        fill={activeOffice===i?"#ef4444":"#dc2626"}
-                      />
-                      {/* Inner dot */}
-                      <circle r={activeOffice===i?4:2.8} fill="#fff" opacity={0.9}/>
+                      <circle r={13} fill="rgba(239,68,68,0.14)" stroke="rgba(239,68,68,0.28)" strokeWidth={1}/>
+                      <circle r={8}  fill="#dc2626" stroke="#fff" strokeWidth={2}
+                        style={{filter:"drop-shadow(0 4px 8px rgba(239,68,68,0.55))"}}/>
+                      <polygon points="0,20 -5,10 5,10" fill="#dc2626"/>
+                      <circle r={3}  fill="#fff" opacity={0.92}/>
                     </g>
                   </Marker>
                 ))}
 
-                {/* SERVICE MARKERS — Cool blue target */}
+                {/* ── SERVICE MARKERS (blue target) ── */}
                 {showServices && SERVICES.map((s, i) => (
                   <Marker key={`s${i}`} coordinates={s.coordinates}>
                     <g
-                      style={{ cursor:"pointer", animation:`pinPop 0.45s cubic-bezier(0.34,1.56,0.64,1) ${(OFFICES.length+i)*100}ms both` }}
-                      onClick={() => handleServiceClick(i)}
+                      style={{ cursor:"pointer", animation:`pinDrop .4s cubic-bezier(0.34,1.56,0.64,1) ${(OFFICES.length+i)*90}ms both` }}
+                      onMouseEnter={(e) => setHovered({ loc:{ ...s, kind:"service" }, markerId:`s${i}` })}
+                      onMouseLeave={() => setHovered(null)}
+                      onClick={() => window.open(`https://www.google.com/maps?q=${s.coordinates[1]},${s.coordinates[0]}`, "_blank")}
                       filter="url(#glow-blue)"
                     >
-                      {activeService===i && (
-                        <circle r={0} fill="none" stroke="#60a5fa" strokeWidth={1}>
-                          <animate attributeName="r" values="0;20;0" dur="2s" repeatCount="indefinite"/>
-                          <animate attributeName="opacity" values="0.7;0;0.7" dur="2s" repeatCount="indefinite"/>
-                        </circle>
-                      )}
-                      {/* Outer ring */}
-                      <circle
-                        r={activeService===i?13:9}
-                        fill="rgba(59,130,246,0.15)"
-                        stroke={activeService===i?"#60a5fa":"#3b82f6"}
-                        strokeWidth={activeService===i?2:1.5}
-                      />
-                      {/* Mid ring */}
-                      <circle r={activeService===i?8:5.5} fill="rgba(59,130,246,0.25)" stroke="#93c5fd" strokeWidth={1}/>
-                      {/* Core */}
-                      <circle r={activeService===i?4:3} fill={activeService===i?"#60a5fa":"#3b82f6"}/>
-                      <circle r={activeService===i?1.5:1.2} fill="#fff" opacity={0.9}/>
+                      <circle r={11} fill="rgba(59,130,246,0.14)" stroke="#3b82f6" strokeWidth={1.5}
+                        style={{filter:"drop-shadow(0 3px 7px rgba(59,130,246,0.45))"}}/>
+                      <circle r={6}  fill="rgba(59,130,246,0.3)"  stroke="#93c5fd" strokeWidth={1}/>
+                      <circle r={3}  fill="#3b82f6"/>
+                      <circle r={1.2} fill="#fff" opacity={0.95}/>
                     </g>
                   </Marker>
                 ))}
 
               </ComposableMap>
+
+              {/* ── HOVER CARD — floats over the map ── */}
+              {hovered && (() => {
+                const loc = hovered.loc;
+                const isOff = loc.kind === "office";
+                const k = isOff ? "off" : "svc";
+                return (
+                  <div
+                    className="imap-hovercard"
+                    style={{
+                      /* Position top-right area so it doesn't cover the map */
+                      top: 20, right: 20,
+                    }}
+                  >
+                    <div className={`hc-stripe ${k}`} />
+                    <div className="hc-head">
+                      <div className={`hc-icon ${k}`}>{isOff ? "🏢" : (loc.icon || "📍")}</div>
+                      <div>
+                        <span className={`hc-kicker ${k}`}>{isOff ? "Our Office" : "Service Provided"}</span>
+                        <div className="hc-name">{loc.name}</div>
+                      </div>
+                    </div>
+                    <div className="hc-body">
+                      <div className={`hc-pill ${k}`}>{isOff ? "🏢" : "🔧"} {isOff ? loc.details : loc.type}</div>
+                      <div className="hc-table">
+                        <div className="hc-table-head">{"🏛 संगठन विवरण | Organisation Details"}</div>
+                        {isOff ? (<>
+                          <div className="hc-row"><div className="hc-key">Address</div><div className="hc-val">{loc.address}</div></div>
+                          <div className="hc-row"><div className="hc-key">State</div><div className="hc-val">{loc.state}</div></div>
+                          <div className="hc-row"><div className="hc-key">Phone</div><div className="hc-val">{loc.phone}</div></div>
+                          {loc.email && <div className="hc-row"><div className="hc-key">Email</div><div className="hc-val">{loc.email}</div></div>}
+                        </>) : (<>
+                          <div className="hc-row"><div className="hc-key">Type</div><div className="hc-val">{loc.orgType}</div></div>
+                          <div className="hc-row"><div className="hc-key">Ministry</div><div className="hc-val">{loc.ministry}</div></div>
+                          <div className="hc-row"><div className="hc-key">Department</div><div className="hc-val">{loc.department}</div></div>
+                          <div className="hc-row"><div className="hc-key">Organisation</div><div className="hc-val bold">{loc.orgName}</div></div>
+                          <div className="hc-row"><div className="hc-key">Office Zone</div><div className="hc-val">{loc.zone}</div></div>
+                        </>)}
+                      </div>
+                      <a
+                        className="hc-cta"
+                        href={`https://www.google.com/maps?q=${loc.coordinates[1]},${loc.coordinates[0]}`}
+                        target="_blank" rel="noopener noreferrer"
+                        style={{pointerEvents:"auto"}}
+                      >
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        View on Google Maps
+                      </a>
+                    </div>
+                  </div>
+                );
+              })()}
             </div>
 
-            {/* Click hint */}
             <div style={{padding:"10px 20px 0"}}>
-              <div className="imap-hint">Click any marker for full details</div>
+              <div className="imap-hint">Hover any marker for details · Click to open in Maps</div>
             </div>
 
-            {/* Legend */}
+            {/* LEGEND */}
             <div className="imap-legend">
               <div className="leg-item">
-                <svg width="14" height="22" viewBox="0 0 14 22">
+                <svg width="14" height="21" viewBox="0 0 14 21">
                   <circle cx="7" cy="7" r="7" fill="#dc2626" stroke="#fff" strokeWidth="1.5"/>
-                  <polygon points="7,21 3,10 11,10" fill="#dc2626"/>
+                  <polygon points="7,20 3,10 11,10" fill="#dc2626"/>
                   <circle cx="7" cy="7" r="3" fill="#fff" opacity="0.9"/>
                 </svg>
-                Our Offices
-              </div>
-              <div className="leg-item" style={{gap:10}}>
-                <svg width="22" height="22" viewBox="0 0 22 22">
-                  <circle cx="11" cy="11" r="9" fill="rgba(59,130,246,0.15)" stroke="#3b82f6" strokeWidth="1.5"/>
-                  <circle cx="11" cy="11" r="5" fill="rgba(59,130,246,0.3)" stroke="#93c5fd" strokeWidth="1"/>
-                  <circle cx="11" cy="11" r="2.5" fill="#60a5fa"/>
-                </svg>
-                Service Deployments
+                Office Location
               </div>
               <div className="leg-item">
-                <div style={{width:14,height:14,borderRadius:3,background:"linear-gradient(135deg,#2452a4,#1a3a7c)",border:"1px solid rgba(99,140,255,0.3)",flexShrink:0}}/>
+                <svg width="22" height="22" viewBox="0 0 22 22">
+                  <circle cx="11" cy="11" r="9"   fill="rgba(59,130,246,0.14)" stroke="#3b82f6" strokeWidth="1.5"/>
+                  <circle cx="11" cy="11" r="5"   fill="rgba(59,130,246,0.3)"  stroke="#93c5fd" strokeWidth="1"/>
+                  <circle cx="11" cy="11" r="2.5" fill="#3b82f6"/>
+                </svg>
+                Service Deployment
+              </div>
+              <div className="leg-item">
+                <div className="leg-state"/>
                 Madhya Pradesh (Home State)
               </div>
             </div>
           </div>
 
-          {/* ── RIGHT PANEL ── */}
+          {/* RIGHT PANEL */}
           <div className="imap-panel">
-
-            {/* Stats */}
             <div className="imap-stats">
               <div className="imap-stat red">
-                <div className="imap-stat-val">{OFFICES.length}</div>
-                <div className="imap-stat-lbl">Offices</div>
-                <div className="imap-stat-bar"/>
+                <div className="stat-val">{OFFICES.length}</div>
+                <div className="stat-lbl">Offices</div>
+                <div className="stat-bar"/>
               </div>
               <div className="imap-stat blue">
-                <div className="imap-stat-val">{SERVICES.length}+</div>
-                <div className="imap-stat-lbl">Sites</div>
-                <div className="imap-stat-bar"/>
+                <div className="stat-val">{SERVICES.length}+</div>
+                <div className="stat-lbl">Sites</div>
+                <div className="stat-bar"/>
               </div>
             </div>
 
-            {/* Directory */}
             <div className="imap-dir">
-              <div className="imap-dir-head">
-                <svg width="14" height="14" viewBox="0 0 16 16" fill="#60a5fa"><path d="M8 0a5 5 0 1 0 0 10A5 5 0 0 0 8 0zm0 9a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm0 1.5C5.5 10.5 1 11.75 1 14v1h14v-1c0-2.25-4.5-3.5-7-3.5z"/></svg>
-                <span className="imap-dir-title">Location Directory</span>
-                <span className="imap-dir-cnt">{(showOffices?OFFICES.length:0)+(showServices?SERVICES.length:0)}</span>
+              <div className="dir-head">
+                <svg width="13" height="13" viewBox="0 0 16 16" fill="#60a5fa"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4z"/></svg>
+                <span className="dir-title">Location Directory</span>
+                <span className="dir-count">{(showOffices?OFFICES.length:0)+(showServices?SERVICES.length:0)}</span>
               </div>
-              <div className="imap-dir-body">
-                {showOffices && OFFICES.map((o,i)=>(
+              <div className="dir-body">
+                {showOffices && OFFICES.map((o,i) => (
                   <div
-                    key={`d-o${i}`}
-                    className={`dir-item${activeOffice===i?" act":""}`}
-                    onClick={()=>handleOfficeClick(i)}
-                    onMouseEnter={()=>setHoveredItem(`o${i}`)}
-                    onMouseLeave={()=>setHoveredItem(null)}
+                    key={`dl-o${i}`}
+                    className="dir-item off-item"
+                    onMouseEnter={() => setHovered({ loc:{ ...o, kind:"office" }, markerId:`o${i}` })}
+                    onMouseLeave={() => setHovered(null)}
+                    onClick={() => window.open(`https://www.google.com/maps?q=${o.coordinates[1]},${o.coordinates[0]}`, "_blank")}
                   >
                     <div className="dir-avatar off">🏢</div>
-                    <div style={{flex:1,minWidth:0}}>
+                    <div>
                       <div className="dir-name">{o.name}</div>
-                      <div className="dir-sub">{o.state}</div>
+                      <div className="dir-sub">{o.address}</div>
                     </div>
                     <span className="dir-tag off">Office</span>
                   </div>
                 ))}
-                {showServices && SERVICES.map((s,i)=>(
+                {showServices && SERVICES.map((s,i) => (
                   <div
-                    key={`d-s${i}`}
-                    className={`dir-item svc${activeService===i?" act":""}`}
-                    onClick={()=>handleServiceClick(i)}
+                    key={`dl-s${i}`}
+                    className="dir-item svc-item"
+                    onMouseEnter={() => setHovered({ loc:{ ...s, kind:"service" }, markerId:`s${i}` })}
+                    onMouseLeave={() => setHovered(null)}
+                    onClick={() => window.open(`https://www.google.com/maps?q=${s.coordinates[1]},${s.coordinates[0]}`, "_blank")}
                   >
                     <div className="dir-avatar svc">{s.icon}</div>
-                    <div style={{flex:1,minWidth:0}}>
+                    <div>
                       <div className="dir-name">{s.name}</div>
                       <div className="dir-sub">{s.zone}</div>
                     </div>
@@ -774,66 +641,6 @@ export default function IndiaMap() {
 
         </div>
       </section>
-
-      {/* ══════════ MODAL ══════════ */}
-      {activeLoc && (
-        <div className="imap-overlay" onClick={e=>{ if(e.target.classList.contains("imap-overlay")) close(); }}>
-          <div className="imap-modal">
-            <div className={`modal-stripe ${activeLoc.kind==="office"?"off":"svc"}`}/>
-
-            {/* Header */}
-            <div className="modal-hd">
-              <div className={`modal-hd-icon ${activeLoc.kind==="office"?"off":"svc"}`}>
-                {activeLoc.kind==="office" ? "🏢" : (activeLoc.icon||"📍")}
-              </div>
-              <div style={{flex:1}}>
-                <div className={`modal-kicker ${activeLoc.kind==="office"?"off":"svc"}`}>
-                  {activeLoc.kind==="office" ? "Our Office" : "Service Provided"}
-                </div>
-                <div className="modal-name">{activeLoc.name}</div>
-              </div>
-              <button className="modal-x" onClick={close}>✕</button>
-            </div>
-
-            {/* Body */}
-            <div className="modal-body">
-              <div className={`modal-pill ${activeLoc.kind==="office"?"off":"svc"}`}>
-                {activeLoc.kind==="office" ? "🏢" : "🔧"}
-                {activeLoc.kind==="office" ? activeLoc.details : activeLoc.type}
-              </div>
-
-              <div className="modal-table">
-                <div className="modal-table-head">
-                  🏛&nbsp; संगठन विवरण &nbsp;|&nbsp; Organisation Details
-                </div>
-
-                {activeLoc.kind==="office" ? (<>
-                  <div className="modal-row"><div className="modal-key">Address</div><div className="modal-val">{activeLoc.address}</div></div>
-                  <div className="modal-row"><div className="modal-key">State</div><div className="modal-val">{activeLoc.state}</div></div>
-                  <div className="modal-row"><div className="modal-key">Phone</div><div className="modal-val">{activeLoc.phone}</div></div>
-                  {activeLoc.email&&<div className="modal-row"><div className="modal-key">Email</div><div className="modal-val">{activeLoc.email}</div></div>}
-                </>) : (<>
-                  <div className="modal-row"><div className="modal-key">Type</div><div className="modal-val">{activeLoc.orgType}</div></div>
-                  <div className="modal-row"><div className="modal-key">Ministry</div><div className="modal-val">{activeLoc.ministry}</div></div>
-                  <div className="modal-row"><div className="modal-key">Department</div><div className="modal-val">{activeLoc.department}</div></div>
-                  <div className="modal-row"><div className="modal-key">Organisation</div><div className="modal-val bold">{activeLoc.orgName}</div></div>
-                  <div className="modal-row"><div className="modal-key">Office Zone</div><div className="modal-val">{activeLoc.zone}</div></div>
-                </>)}
-              </div>
-
-              <a
-                className="modal-cta"
-                href={`https://www.google.com/maps?q=${activeLoc.coordinates[1]},${activeLoc.coordinates[0]}`}
-                target="_blank" rel="noopener noreferrer"
-              >
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
-                View on Google Maps
-                <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8.636 3.5a.5.5 0 0 0-.5-.5H1.5A1.5 1.5 0 0 0 0 4.5v10A1.5 1.5 0 0 0 1.5 16h10a1.5 1.5 0 0 0 1.5-1.5V7.864a.5.5 0 0 0-1 0V14.5a.5.5 0 0 1-.5.5h-10a.5.5 0 0 1-.5-.5v-10a.5.5 0 0 1 .5-.5h6.636a.5.5 0 0 0 .5-.5z"/><path d="M16 .5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h3.793L6.146 9.146a.5.5 0 1 0 .708.708L15 1.707V5.5a.5.5 0 0 0 1 0v-5z"/></svg>
-              </a>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
