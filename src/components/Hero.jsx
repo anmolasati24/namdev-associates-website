@@ -51,7 +51,7 @@ export default function Hero() {
         <div className="relative">
           <div className="rounded-2xl overflow-hidden shadow-xl">
             <img
-              src="/images/meeting.png"
+              src="/assets/em.jpeg"
               alt="Manpower Services"
               className="w-full h-[450px] object-cover"
             />

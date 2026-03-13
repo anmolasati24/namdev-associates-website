@@ -1,21 +1,33 @@
-const mongoose =require("mongoose");
+const mongoose = require("mongoose");
 
-const tenderSchema =new mongoose.Schema(
-    {
-        companyName:String,
-        contactPerson:String,
-        email:String,
-        phone:String,
-        projectDescription:String,
-        budget:String,
-        deadline:Date,
-        document:String,
-        status:{
-            type:String,
-            default:"Pending"
-        }
-    },
-    {timestamps:true}
+const TenderSchema = new mongoose.Schema(
+{
+companyName: String,
+organizationType: String,
+registrationNumber: String,
+gstNumber: String,
+address: String,
+
+contactPerson: String,
+designation: String,
+email: String,
+phone: String,
+
+projectType: String,
+otherProjectType: String,
+projectLocation: String,
+startDate: Date,
+endDate: Date,
+
+minimumLabour: Number,
+skilledLabour: Number,
+semiSkilledLabour: Number,
+unSkilledLabour: Number,
+
+budget: String,
+description: String
+},
+{ timestamps: true }
 );
 
-module.exports =mongoose.model("Tender",tenderSchema);
+module.exports = mongoose.model("Tender", TenderSchema);

@@ -1,218 +1,343 @@
+import { useState } from "react";
+import { motion } from "framer-motion";
+
 export default function About() {
-  return (
-    <div className="pt-40 bg-white">
 
-      {/*  Banner Section */}
-      <section className="relative bg-gradient-to-r from-blue-900 to-blue-700 py-16 text-white">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">
-            About Namdev Associates
-          </h1>
-          <p className="max-w-3xl mx-auto text-lg text-blue-100 leading-relaxed">
-            Delivering structured, compliant and performance-driven manpower
-            and facility management solutions across India.
-          </p>
-        </div>
-      </section>
+const [activeSection, setActiveSection] = useState("who");
 
-      {/*Stats Section  */}
-      <section className="py-16 bg-gradient-to-b from-white to-gray-50 border-b-2 border-gray-200">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+const fadeUp = {
+initial:{opacity:0,y:40},
+animate:{opacity:1,y:0},
+transition:{duration:0.6}
+};
 
-            {[
-              { number: "15+", label: "Years of Experience" },
-              { number: "120+", label: "Government Contracts" },
-              { number: "5000+", label: "Workforce Deployed" },
-              { number: "PAN India", label: "Operational Presence" }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="group bg-white border border-gray-200 rounded-xl p-8 text-center shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden"
-              >
-                <div className="absolute top-0 left-0 w-full h-1 bg-blue-800"></div>
+return (
+<div className="pt-40 bg-white">
 
-                <h3 className="text-3xl md:text-4xl font-bold text-blue-900 group-hover:text-blue-700 transition">
-                  {item.number}
-                </h3>
+{/* Banner */}
+<section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 py-20 text-white overflow-hidden">
 
-                <p className="text-gray-600 mt-2 text-sm md:text-base">
-                  {item.label}
-                </p>
-              </div>
-            ))}
+<div className="absolute inset-0 opacity-10 bg-[url('/assets/pattern.png')]"></div>
 
-          </div>
-        </div>
-      </section>
+<motion.div
+initial={{opacity:0,y:40}}
+animate={{opacity:1,y:0}}
+transition={{duration:0.8}}
+className="max-w-7xl mx-auto px-6 text-center"
+>
+
+<h1 className="text-5xl font-bold mb-6 tracking-tight">
+About Namdev Associates
+</h1>
+
+<p className="max-w-3xl mx-auto text-lg text-blue-100 leading-relaxed">
+Delivering structured, compliant and performance-driven manpower
+and facility management solutions across India.
+</p>
+
+</motion.div>
+</section>
 
 
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-4 gap-16">
+{/* Stats */}
+<section className="py-20 bg-gray-50">
 
-          {/*Sidebar  */}
-          <div className="lg:col-span-1">
-            <div className="bg-white border border-gray-200 rounded-xl shadow-md sticky top-40 overflow-hidden">
+<div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
 
-              <div className="bg-blue-900 text-white px-6 py-4">
-                <h4 className="font-semibold text-lg">About Section</h4>
-              </div>
+{[
+{ number:"7+",label:"Years Experience"},
+{ number:"12+",label:"Government Contracts"},
+{ number:"500+",label:"Workforce Deployed"},
+{ number:"PAN India",label:"Operational Presence"}
+].map((item,index)=>(
+<motion.div
+key={index}
+initial={{opacity:0,y:30}}
+whileInView={{opacity:1,y:0}}
+transition={{delay:index*0.15}}
+className="bg-white p-10 rounded-xl shadow-lg text-center border hover:-translate-y-3 hover:shadow-2xl transition-all duration-300"
+>
 
-              <div className="divide-y divide-gray-200">
+<h3 className="text-4xl font-bold text-blue-900">
+{item.number}
+</h3>
 
-                {[
-                  "Who We Are",
-                  "Vision & Mission",
-                  "Our Leadership",
-                  "Compliance & Certifications"
-                ].map((item, index) => (
-                  <div
-                    key={index}
-                    className="group flex justify-between items-center px-6 py-4 hover:bg-blue-50 cursor-pointer transition relative"
-                  >
-                    <span className="text-gray-700 group-hover:text-blue-900 transition">
-                      {item}
-                    </span>
-                    <span className="text-gray-400 group-hover:text-blue-700 group-hover:translate-x-1 transition">
-                      →
-                    </span>
-                  </div>
-                ))}
+<p className="text-gray-600 mt-3">
+{item.label}
+</p>
 
-              </div>
+</motion.div>
+))}
 
-              <div className="p-6">
-                <button className="w-full bg-blue-900 hover:bg-blue-800 text-white py-3 rounded-lg transition">
-                  Download Company Profile
-                </button>
-              </div>
-
-            </div>
-          </div>
-
-          <div className="lg:col-span-3">
-
-            {/* Section Label */}
-            <div className="flex items-center mb-4">
-              <div className="w-10 h-1 bg-blue-800 mr-4"></div>
-              <span className="text-sm font-semibold text-blue-800 uppercase tracking-wider">
-                About Company
-              </span>
-            </div>
-
-            {/* Heading */}
-            <h2 className="text-3xl md:text-4xl font-bold text-blue-900 mb-6">
-              Who We Are
-            </h2>
-
-            {/* Content Box */}
-            <div className="bg-gray-50 p-8 rounded-xl border border-gray-200 shadow-sm mb-12">
-              <p className="text-gray-700 leading-relaxed mb-6 text-lg">
-                Namdev Associates is an ISO 9001:2015 certified manpower and facility
-                management organization delivering structured workforce outsourcing
-                solutions to Government and Corporate institutions across India.
-              </p>
-
-              <p className="text-gray-600 leading-relaxed">
-                With extensive experience in statutory compliance, contract execution,
-                and workforce governance, we function as a trusted operational partner
-                ensuring service excellence, transparency, and full regulatory adherence.
-              </p>
-            </div>
-
-            {/* Image Section */}
-            <div className="relative rounded-xl overflow-hidden shadow-xl group mb-16">
-              <img
-                src="/images/office-meeting.jpg"
-                alt="Company Overview"
-                className="w-full h-[420px] object-cover transform group-hover:scale-105 transition duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
-              <div className="absolute bottom-6 left-6 text-white">
-                <p className="text-lg font-semibold">
-                  Building Trust Through Compliance & Excellence
-                </p>
-              </div>
-            </div>
-
-            {/* Vision & Mission */}
-            <div className="grid md:grid-cols-2 gap-10">
-
-              <div className="bg-white border border-gray-200 rounded-xl p-10 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-blue-800"></div>
-                <h3 className="text-xl font-semibold text-blue-900 mb-4">
-                  Our Vision
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  To become a nationally recognized manpower and facility
-                  management organization known for integrity, compliance
-                  excellence and sustainable partnerships.
-                </p>
-              </div>
-
-              <div className="bg-white border border-gray-200 rounded-xl p-10 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-blue-800"></div>
-                <h3 className="text-xl font-semibold text-blue-900 mb-4">
-                  Our Mission
-                </h3>
-                <p className="text-gray-600 leading-relaxed">
-                  To deliver legally compliant, efficient and performance-driven
-                  workforce solutions that enhance operational productivity
-                  across diverse sectors.
-                </p>
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-      </section>
+</div>
+</section>
 
 
-      <section className="bg-gray-50 py-24">
-        <div className="max-w-7xl mx-auto px-6 text-center">
+{/* Main Layout */}
+<section className="py-24">
 
-          <h2 className="text-3xl font-semibold text-blue-900 mb-16">
-            Why Choose Namdev Associates
-          </h2>
+<div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-4 gap-16">
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+{/* Sidebar */}
+<div className="lg:col-span-1">
 
-            {[
-              {
-                title: "Statutory Compliance",
-                desc: "Full adherence to labor laws, PF, ESIC, and statutory norms."
-              },
-              {
-                title: "Skilled & Verified Staff",
-                desc: "Thoroughly screened and performance-monitored workforce."
-              },
-              {
-                title: "Government Expertise",
-                desc: "Successful execution of government and PSU contracts."
-              },
-              {
-                title: "Nationwide Operations",
-                desc: "Strong presence across multiple Indian states."
-              }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className="bg-white p-8 rounded-xl shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-300"
-              >
-                <h4 className="font-semibold text-lg mb-3 text-gray-800">
-                  {item.title}
-                </h4>
-                <p className="text-gray-600 text-sm">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
+<div className="sticky top-40 bg-white border rounded-xl shadow-lg overflow-hidden">
 
-          </div>
-        </div>
-      </section>
+<div className="bg-blue-900 text-white px-6 py-4 font-semibold">
+About Section
+</div>
 
-    </div>
-  );
+{[
+{key:"who",label:"Who We Are"},
+{key:"vision",label:"Vision & Mission"},
+{key:"leadership",label:"Our Leadership"},
+{key:"certificate",label:"Certifications"}
+].map((item)=>(
+<div
+key={item.key}
+onClick={()=>setActiveSection(item.key)}
+className={`px-6 py-4 cursor-pointer transition 
+${activeSection===item.key
+? "bg-blue-100 text-blue-900 font-medium"
+:"hover:bg-gray-50 text-gray-700"}`}
+>
+{item.label}
+</div>
+))}
+
+</div>
+</div>
+
+
+{/* Content */}
+<div className="lg:col-span-3">
+
+<motion.div
+key={activeSection}
+initial={{opacity:0,y:30}}
+animate={{opacity:1,y:0}}
+transition={{duration:0.5}}
+>
+
+{/* Who */}
+{activeSection==="who" &&(
+<div>
+
+<h2 className="text-4xl font-bold text-blue-900 mb-6">
+Who We Are
+</h2>
+
+<p className="text-gray-700 leading-relaxed mb-6">
+Namdev Associates is an ISO 9001:2015 certified manpower and facility
+management organization delivering structured workforce outsourcing
+solutions to Government and Corporate institutions across India.
+</p>
+
+<p className="text-gray-600 mb-10">
+With extensive experience in statutory compliance, contract execution,
+and workforce governance, we function as a trusted operational partner
+ensuring service excellence and transparency.
+</p>
+
+<div className="overflow-hidden rounded-xl shadow-xl">
+<img
+src="/assets/em.jpeg"
+className="w-full h-[420px] object-cover hover:scale-105 transition duration-500"
+/>
+</div>
+
+</div>
+)}
+
+
+{/* Vision */}
+{activeSection==="vision" &&(
+
+<div>
+
+<h2 className="text-4xl font-bold text-blue-900 mb-10">
+Vision & Mission
+</h2>
+
+<div className="grid md:grid-cols-2 gap-10">
+
+<div className="p-10 rounded-xl border bg-white shadow hover:shadow-xl transition">
+
+<h3 className="text-xl font-semibold text-blue-900 mb-4">
+Our Vision
+</h3>
+
+<p className="text-gray-600">
+To become a nationally recognized manpower and facility
+management organization known for integrity and compliance.
+</p>
+
+</div>
+
+<div className="p-10 rounded-xl border bg-white shadow hover:shadow-xl transition">
+
+<h3 className="text-xl font-semibold text-blue-900 mb-4">
+Our Mission
+</h3>
+
+<p className="text-gray-600">
+To deliver efficient and performance-driven workforce
+solutions that enhance operational productivity.
+</p>
+
+</div>
+
+</div>
+</div>
+)}
+
+
+{/* Leadership */}
+{activeSection==="leadership" &&(
+
+<div>
+
+<h2 className="text-4xl font-bold text-blue-900 mb-10">
+Our Leadership
+</h2>
+
+<div className="grid md:grid-cols-3 gap-8">
+
+{[
+{
+name:"Mr Rohit Namdev",
+role:"Founder & Managing Director",
+phone:"+91 8423215047",
+email:"rohit@namdevassociates.com",
+image:"/assets/conatcat.png"
+},
+
+{
+name:"Mr Neeraj Namdev",
+role:"Operations Manager",
+phone:"+91 9215188776",
+email:"operations@namdevassociates.com",
+image:"/assets/conatcat.png"
+},
+
+{
+name:"Mr MN",
+role:"HR & Compliance Head",
+phone:"+91 8689858375",
+email:"hr@namdevassociates.com",
+image:"/assets/conatcat.png"
+}
+
+].map((p,i)=>(
+
+<div
+key={i}
+className="text-center p-8 rounded-xl border shadow hover:shadow-2xl hover:-translate-y-3 transition"
+>
+
+<img
+src={p.image}
+className="w-24 h-24 object-cover rounded-full mx-auto mb-4 border-4 border-blue-100"
+/>
+
+<h4 className="font-semibold text-lg">
+{p.name}
+</h4>
+
+<p className="text-gray-500 text-sm mb-2">
+{p.role}
+</p>
+
+<p className="text-sm text-gray-600">
+📞 {p.phone}
+</p>
+
+<p className="text-sm text-gray-600">
+✉ {p.email}
+</p>
+
+</div>
+
+))}
+
+</div>
+
+
+</div>
+)}
+
+
+{/* Certificate */}
+{activeSection==="certificate" &&(
+
+<div className="text-center">
+
+<h2 className="text-4xl font-bold text-blue-900 mb-10">
+Compliance & Certifications
+</h2>
+
+<div className="bg-gray-50 p-10 rounded-xl shadow">
+
+<img
+src="/assets/iso11.jpg"
+className="mx-auto mb-6 rounded-lg shadow-lg"
+/>
+
+<p className="text-gray-600 max-w-xl mx-auto">
+ISO 9001:2015 certification ensuring quality management
+standards across all manpower operations.
+</p>
+
+</div>
+
+</div>
+)}
+
+</motion.div>
+
+</div>
+</div>
+</section>
+
+
+{/* Why Choose */}
+<section className="bg-gray-50 py-24">
+
+<div className="max-w-7xl mx-auto px-6 text-center">
+
+<h2 className="text-4xl font-semibold text-blue-900 mb-16">
+Why Choose Namdev Associates
+</h2>
+
+<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+
+{[
+"Statutory Compliance",
+"Skilled Workforce",
+"Government Expertise",
+"Nationwide Operations"
+].map((item,i)=>(
+<motion.div
+key={i}
+whileHover={{scale:1.05}}
+className="bg-white p-8 rounded-xl shadow hover:shadow-2xl transition"
+>
+
+<h4 className="font-semibold text-lg mb-3 text-gray-800">
+{item}
+</h4>
+
+<p className="text-gray-600 text-sm">
+Professional manpower solutions with strict regulatory compliance.
+</p>
+
+</motion.div>
+))}
+
+</div>
+</div>
+</section>
+
+</div>
+);
 }
