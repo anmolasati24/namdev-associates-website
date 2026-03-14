@@ -208,25 +208,33 @@ Our Leadership
 name:"Mr Rohit Namdev",
 role:"Founder & Managing Director",
 phone:"+91 8423215047",
-email:"rohit@namdevassociates.com",
-image:"/assets/conatcat.png"
+email:"namdevassociateslko@gmail.com",
+image:"/assets/RNM.jpeg"
 },
 
 {
-name:"Mr Neeraj Namdev",
-role:"Operations Manager",
-phone:"+91 9215188776",
-email:"operations@namdevassociates.com",
-image:"/assets/conatcat.png"
+name:"Mr Tarun Parihar",
+role:"Operational Manager",
+phone:"+91 8423215047",
+email:"namdevassociateslko@gmail.com",
+image:"/assets/TPR.jpeg"
 },
 
 {
-name:"Mr MN",
-role:"HR & Compliance Head",
-phone:"+91 8689858375",
-email:"hr@namdevassociates.com",
-image:"/assets/conatcat.png"
-}
+name:"Mr Garvesh Namdev",
+role:"HR Coordinator",
+phone:"+91 8423215047",
+email:"namdevassociateslko@gmail.com",
+image:"/assets/GNM.jpeg"
+},
+
+{
+name:"Miss Sonali Verma",
+role:"HR Coordinator",
+phone:"+91 8423215047",
+email:"namdevassociateslko@gmail.com",
+image:"/assets/svv.jpeg"
+},
 
 ].map((p,i)=>(
 
