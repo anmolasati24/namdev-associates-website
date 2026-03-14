@@ -223,6 +223,38 @@ setLoading(false);
         transform:translateY(0);
       }
 
+      @media (max-width: 1024px) {
+        .hero { padding: 100px 4% 0; min-height: 60vh; }
+        .hero-content { max-width: 90%; }
+        .hero h1 { font-size: clamp(2rem, 7vw, 3.4rem); }
+        .hero p { font-size: 1rem; }
+        .section { padding: 65px 6%; }
+        .contact-grid { gap: 35px; }
+        .form-card { padding: 30px; }
+      }
+
+      @media (max-width: 768px) {
+        .hero { padding: 90px 4% 20px; min-height: 50vh; }
+        .hero h1 { font-size: clamp(1.8rem, 10vw, 2.4rem); margin-bottom: 12px; }
+        .hero p { font-size: 0.95rem; margin-bottom: 8px; }
+        .section { padding: 45px 4%; }
+        .contact-grid { grid-template-columns: 1fr; gap: 28px; }
+        .title-main { font-size: 2rem; margin-bottom: 16px; }
+        .address-box p { font-size: 14px; }
+        .form-card { padding: 20px; border-radius: 14px; }
+        .form-group input, .form-group textarea, .form-group select { padding: 12px; }
+        .submit-btn { padding: 14px; font-size: 14px; border-radius: 999px; }
+      }
+
+      @media (max-width: 500px) {
+        .hero { padding: 80px 3% 18px; min-height: 45vh; }
+        .hero h1 { font-size: 1.85rem; }
+        .section { padding: 28px 3%; }
+        .form-card { padding: 16px; }
+        .socials { gap: 10px; }
+        .socials span { width: 34px; height: 34px; }
+      }
+
       `}</style>
 
       {/* HERO */}
@@ -237,7 +269,7 @@ setLoading(false);
 
       {/* CONTACT SECTION */}
       <section className="section">
-        <div className="contact-grid">
+        <div className="contact-grid grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
 
           {/* LEFT SIDE */}
          <div ref={revealRef1} className="reveal">
@@ -283,7 +315,7 @@ setLoading(false);
 
          <div ref={revealRef2} className="reveal">
 
-  <form className="form-card" onSubmit={handleSubmit}>
+  <form className="form-card max-w-xl mx-auto" onSubmit={handleSubmit}>
 
     {/* SUCCESS MESSAGE */}
     {success && (

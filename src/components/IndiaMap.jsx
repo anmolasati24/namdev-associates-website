@@ -29,6 +29,55 @@ const OFFICES = [
     phone: "+91-84232-15047",
     details: "Regional Branch Office",
   },
+  {
+    name: "Rudrapur – Branch Office",
+    coordinates: [79.4032, 28.9774],  // Rudrapur, Udham Singh Nagar, Uttarakhand exact
+    state: "Uttarakhand",
+    address: "Ward No. 27, Gandhi Colony, Rudrapur, Udham Singh Nagar – 263153",
+    phone: "+91-84232-15047",
+    email: "",
+    details: "Registered Branch Office · Reg. No. UKSADDN029403",
+    regNo: "UKSADDN029403",
+    regAct: "Uttarakhand Dookan Aur Sthaapan Adhiniyam, 2017",
+  },
+  {
+    name: "Sikar – Branch Office",
+    coordinates: [75.1398, 27.6094],  // Sikar, Rajasthan exact
+    state: "Rajasthan",
+    address: "Radhakishanpura, Sikar, Rajasthan",
+    phone: "+91-84232-15047",
+    email: "",
+    details: "Registered Branch Office · Reg. No. SCA/2024/23/132889",
+    regNo: "SCA/2024/23/132889",
+    regAct: "Rajasthan Shops & Commercial Establishments Act, 1958",
+  },
+  {
+    name: "Chandigarh – Branch Office",
+    coordinates: [76.7794, 30.7333],
+    state: "Chandigarh (UT)",
+    address: "Regional Office, Chandigarh",
+    phone: "+91-84232-15047",
+    email: "",
+    details: "Regional Branch Office",
+  },
+  {
+    name: "Dehradun – Branch Office",
+    coordinates: [78.0322, 30.3165],
+    state: "Uttarakhand",
+    address: "Regional Office, Dehradun",
+    phone: "+91-84232-15047",
+    email: "",
+    details: "Regional Branch Office",
+  },
+  {
+    name: "Jaipur – Branch Office",
+    coordinates: [75.7873, 26.9124],
+    state: "Rajasthan",
+    address: "Regional Office, Jaipur",
+    phone: "+91-84232-15047",
+    email: "",
+    details: "Regional Branch Office",
+  },
 ];
 
 const SERVICES = [
@@ -80,6 +129,45 @@ const SERVICES = [
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Military Affairs",
     orgName: "Indian Air Force", zone: "No. 4 Air Force Selection Board, Varanasi",
     type: "Security & Support Deployment", icon: "✈️",
+  },
+  {
+    name: "Basic Shikha Department, Badaun",
+    coordinates: [79.1218, 28.0368],  // Badaun District, UP exact
+    orgType: "State Government", ministry: "—", department: "Basic Education Department, Uttar Pradesh",
+    orgName: "Basic Shikha Department", zone: "Badaun District, Uttar Pradesh",
+    type: "Support Staff & Facility Mgmt.", icon: "🏫",
+  },
+  {
+    name: "Meerut Cantt – Indian Army Base Camp",
+    coordinates: [77.7085, 28.9845],
+    orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Military Affairs",
+    orgName: "Indian Army", zone: "Meerut Cantonment, Uttar Pradesh",
+    type: "Security & Manpower Deployment", icon: "🪖",
+    contractNo: "",
+  },
+  {
+    name: "Indian Navy – Karwar",
+    coordinates: [74.1240, 14.8135],  // Karwar, Karnataka (INS Kadamba) exact
+    orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Military Affairs",
+    orgName: "Indian Navy", zone: "Karwar, Karnataka",
+    type: "Ward Boy Services", icon: "⚓",
+    contractNo: "GEMC-511687729140924", contractValue: "₹1.05 Crore",
+  },
+  {
+    name: "Dept. of Biotechnology – Delhi",
+    coordinates: [77.2090, 28.6350],  // DBT HQ, CGO Complex, New Delhi
+    orgType: "Central Government", ministry: "Ministry of Science & Technology", department: "Department of Biotechnology",
+    orgName: "Department of Biotechnology, Govt. of India", zone: "New Delhi",
+    type: "Semi-Skilled, Graduate & Administrative Manpower", icon: "🔬",
+    contractNo: "GEMC-511687755569708", contractValue: "₹1.33 Crore",
+  },
+  {
+    name: "Ordnance Factory – Kanpur",
+    coordinates: [80.3318, 26.4499],  // Ordnance Factory, Kanpur exact
+    orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Defence Production",
+    orgName: "Ordnance Factory Board – Kanpur", zone: "Kanpur, Uttar Pradesh",
+    type: "Skilled & Semi-Skilled Manpower", icon: "🏭",
+    contractNo: "", contractValue: "",
   },
 ];
 
@@ -529,12 +617,16 @@ export default function IndiaMap() {
                           <div className="hc-row"><div className="hc-key">State</div><div className="hc-val">{loc.state}</div></div>
                           <div className="hc-row"><div className="hc-key">Phone</div><div className="hc-val">{loc.phone}</div></div>
                           {loc.email && <div className="hc-row"><div className="hc-key">Email</div><div className="hc-val">{loc.email}</div></div>}
+                          {loc.regNo && <div className="hc-row"><div className="hc-key">Reg. No.</div><div className="hc-val bold">{loc.regNo}</div></div>}
+                          {loc.regAct && <div className="hc-row"><div className="hc-key">Act</div><div className="hc-val" style={{fontSize:"10px"}}>{loc.regAct}</div></div>}
                         </>) : (<>
                           <div className="hc-row"><div className="hc-key">Type</div><div className="hc-val">{loc.orgType}</div></div>
                           <div className="hc-row"><div className="hc-key">Ministry</div><div className="hc-val">{loc.ministry}</div></div>
                           <div className="hc-row"><div className="hc-key">Department</div><div className="hc-val">{loc.department}</div></div>
                           <div className="hc-row"><div className="hc-key">Organisation</div><div className="hc-val bold">{loc.orgName}</div></div>
                           <div className="hc-row"><div className="hc-key">Office Zone</div><div className="hc-val">{loc.zone}</div></div>
+                          {loc.contractNo && <div className="hc-row"><div className="hc-key">Contract No.</div><div className="hc-val" style={{fontSize:"10px"}}>{loc.contractNo}</div></div>}
+                          {loc.contractValue && <div className="hc-row"><div className="hc-key">Value</div><div className="hc-val bold" style={{color:"#60a5fa"}}>{loc.contractValue}</div></div>}
                         </>)}
                       </div>
                       <a

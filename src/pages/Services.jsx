@@ -604,21 +604,26 @@ export default function Services() {
       <div className="sp">
 
         {/* ══ HERO ══ */}
-        <section className="hero">
-          <div className="hero-grid" />
-          <div className="hero-glow-1" />
-          <div className="hero-glow-2" />
-          <div className="hero-photo" aria-hidden="true">
-            <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=80" alt="" />
-          </div>
-          <div className="hero-inner">
-            <div className="hero-content">
-              <div className="hero-eyebrow"><span className="hero-eyebrow-line" />Explore Our Expertise</div>
-              <h1 className="hero-h1">Service for<br />Your <em>Development</em></h1>
-              <p className="hero-sub">Comprehensive manpower, security and compliance-driven solutions tailored for Government departments, Defence units and Corporate organisations across India.</p>
-              <div className="hero-btns">
-                <button className="btn-blue">Explore Services <svg width="13" height="13" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l7 7-7 7V1z"/></svg></button>
-                <button className="btn-outline-w">Contact Us</button>
+        <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+              <div className="space-y-5">
+                <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-sky-200 font-semibold">
+                  <span className="h-0.5 w-6 bg-sky-300" /> Explore Our Expertise
+                </div>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight">
+                  Service for <br /> Your <span className="text-sky-300">Development</span>
+                </h1>
+                <p className="text-sm sm:text-base text-slate-200 max-w-xl">
+                  Comprehensive manpower, security and compliance-driven solutions tailored for Government departments, Defence units and Corporate organisations across India.
+                </p>
+                <div className="flex flex-wrap gap-3">
+                  <button className="rounded-md bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-2 text-xs sm:text-sm">Explore Services</button>
+                  <button className="rounded-md border border-white/40 text-white font-semibold px-4 py-2 text-xs sm:text-sm">Contact Us</button>
+                </div>
+              </div>
+              <div>
+                <img src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=1200&q=80" alt="Services" className="w-full h-auto rounded-xl shadow-2xl object-cover" />
               </div>
             </div>
           </div>
@@ -690,31 +695,33 @@ export default function Services() {
               <h2 className="sec-h2" style={{ marginBottom: 36 }}>Our Core Services</h2>
             </Reveal>
 
-            {/* Mobile cards */}
-            <div className="mob-cards">
+            {/* Service cards grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {SERVICES.map((s, i) => (
                 <Reveal key={s.id} delay={i * 70}>
-                  <div className="mob-card">
-                    <div className="mob-card-img-wrap">
-                      <img src={s.photo} alt={s.title} className="mob-card-img" />
-                    </div>
-                    <div className="mob-card-body">
-                      <span className="mob-card-tag">{s.tag}</span>
-                      <h3 className="mob-card-title">{s.title}</h3>
-                      <p className="mob-card-desc">{s.desc}</p>
-                      <ul className="mob-card-feats">
+                  <article className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition">
+                    <img src={s.photo} alt={s.title} className="w-full h-auto object-cover" />
+                    <div className="p-4 sm:p-5">
+                      <span className="inline-block mb-2 text-xs font-semibold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-1 rounded">{s.tag}</span>
+                      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">{s.title}</h3>
+                      <p className="text-sm text-slate-600 mb-3">{s.desc}</p>
+                      <ul className="space-y-2 text-sm text-slate-700">
                         {s.features.map(f => (
-                          <li key={f} className="mob-card-feat"><span className="feat-check">✓</span>{f}</li>
+                          <li key={f} className="flex items-start gap-2"><span className="text-sky-500">✓</span>{f}</li>
                         ))}
                       </ul>
                     </div>
-                  </div>
+                  </article>
                 </Reveal>
               ))}
             </div>
 
+            <div className="mt-6 border-t border-slate-200 pt-4">
+              <p className="text-sm text-slate-500">Swipe or click a card to explore each service detail.</p>
+            </div>
+
             {/* Desktop tab selector */}
-            <div className="sel-wrap">
+            <div className="sel-wrap hidden md:block">
               <Reveal delay={100}>
                 <div className="sel-layout">
                   <div className="sel-tabs">
