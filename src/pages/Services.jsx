@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-
+import { useNavigate } from "react-router-dom";
 /* ─── Scroll-reveal hook ─── */
 function useInView(threshold = 0.12) {
   const ref = useRef(null);
@@ -113,14 +113,14 @@ const SERVICES = [
     id: 5, tag: "Quality Systems", title: "ISO Quality Consultancy", icon: "✅",
     desc: "Structured ISO implementation from gap analysis and documentation to internal audits and certification readiness.",
     features: ["ISO 9001 Certification Support", "Documentation & Audit Preparation", "Process Standardisation", "Quality Management Systems", "Continuous Improvement Cycles"],
-    photo: "https://images.unsplash.com/photo-1664575198308-3959904fa430?w=900&q=80",
+    photo: "https://www.pinakindustrial.com/assets/images/services/iso.jpg",
   },
 ];
 
 const STATS = [
-  { value: "15+", label: "Years of Experience" },
-  { value: "500+", label: "Clients Served" },
-  { value: "10,000+", label: "Personnel Deployed" },
+  { value: "7+", label: "Years of Experience" },
+  { value: "12+", label: "Clients Served" },
+  { value: "500+", label: "Personnel Deployed" },
   { value: "98%", label: "Compliance Rate" },
 ];
 
@@ -192,6 +192,7 @@ function IndCard({ ind, delay }) {
 export default function Services() {
   const [active, setActive] = useState(0);
   const cur = SERVICES[active];
+  const navigate = useNavigate();
 
   return (
     <>
@@ -754,7 +755,7 @@ export default function Services() {
           { svc: SERVICES[1], num: "02", label: "Protection Services", bg: "#fff", photo: "https://images.unsplash.com/photo-1582139329536-e7284fece509?w=900&q=80", alt: "Security", flip: true },
           { svc: SERVICES[2], num: "03", label: "Facility Management", bg: "#f8faff", photo: "https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=900&q=80", alt: "Housekeeping", flip: false },
           { svc: SERVICES[3], num: "04", label: "HR Advisory", bg: "#fff", photo: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=900&q=80", alt: "HR", flip: true },
-          { svc: SERVICES[4], num: "05", label: "Quality Systems", bg: "#f8faff", photo: "https://images.unsplash.com/photo-1664575198308-3959904fa430?w=900&q=80", alt: "ISO", flip: false },
+          { svc: SERVICES[4], num: "05", label: "Quality Systems", bg: "#f8faff", photo: "https://www.pinakindustrial.com/assets/images/services/iso.jpg", alt: "ISO", flip: false },
         ].map(({ svc, num, label, bg, photo, alt, flip }) => (
           <section key={num} className="fb">
             {!flip && (
@@ -816,7 +817,15 @@ export default function Services() {
               <h2 className="cta-h2">Ready to Build a<br /><span style={{ color: "#60A5FA" }}>Stronger Organisation?</span></h2>
               <p className="cta-sub">Connect with our team to discuss your manpower, security or compliance requirements. We deliver solutions tailored precisely to your needs.</p>
               <div className="cta-btns">
-                <button className="btn-white">Request a Proposal <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l7 7-7 7V1z"/></svg></button>
+            <button
+  onClick={() => navigate("/consultation")}
+  className="btn-white"
+>
+  Request a Proposal
+  <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
+    <path d="M8 1l7 7-7 7V1z" />
+  </svg>
+</button>
                 <button className="btn-ghost">Contact Us</button>
               </div>
             </Reveal>

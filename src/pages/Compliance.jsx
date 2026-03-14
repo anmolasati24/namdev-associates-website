@@ -259,11 +259,11 @@ export default function ComplianceSection() {
               <p>Compliance Rate</p>
             </div>
             <div className="stat-box">
-              <h3><Counter end={15}/>+</h3>
+              <h3><Counter end={7}/>+</h3>
               <p>Years Governance Experience</p>
             </div>
             <div className="stat-box">
-              <h3><Counter end={500}/>+</h3>
+              <h3><Counter end={12}/>+</h3>
               <p>Clients Served</p>
             </div>
           </div>

@@ -1,10 +1,40 @@
 export default function Clients() {
   const clients = [
-    { name: "NPCIL", logo: "/images/npcil.png" },
-    { name: "Ordnance Factory", logo: "/images/ordnance.jpg" },
-    { name: "Linde", logo: "/images/linde.png" },
-    { name: "Indian Army", logo: "/images/indian army.png" },
-  ];
+  { name: "NPCIL", logo: "/images/npcil.png" },
+  { name: "Ordnance Factory", logo: "/images/ordnance.jpg" },
+  { name: "Linde", logo: "/images/linde.png" },
+  { name: "Indian Army", logo: "/images/indian army.png" },
+
+  { 
+    name: "Central Police Organisation",
+    logo: "https://upload.wikimedia.org/wikipedia/en/6/6e/Central_Police_Canteen_Logo.png"
+  },
+
+  { 
+    name: "Indian Navy (INHS Patanjali)",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Indian_Navy_crest.svg/250px-Indian_Navy_crest.svg.png"
+  },
+
+  { 
+    name: "Indian Air Force",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRPjtKLn-ieT0CKStaAllhAaC89S7g4Yl_VbQ&s"
+  },
+
+  { 
+    name: "NCC Delhi",
+    logo: "https://i.pinimg.com/736x/53/c6/16/53c616f8bab3527052b597d697baf4d5.jpg"
+  },
+
+  { 
+    name: "Food Safety & Drug Administration Uttar Pradesh",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRrgCkfTaS5XELUiAAcFkkWPl5fMcoV5LVLfg&s"
+  },
+
+  { 
+    name: "Department of Biotechnology Delhi",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQf-lBgbg3mzTi4JXhPqmmrt2R-DpKWBQDCwA&s"
+  }
+];
 
   return (
     <section className="py-28 bg-gray-50 overflow-hidden">
@@ -54,11 +84,11 @@ export default function Clients() {
                 key={index}
                 className="flex items-center justify-center opacity-70 hover:opacity-100 transition duration-300"
               >
-                <img
-                  src={client.logo}
-                  alt={client.name}
-                  className="h-20 md:h-24 object-contain grayscale hover:grayscale-0 transition duration-300"
-                />
+               <img
+  src={client.logo}
+  alt={client.name}
+  className="h-20 md:h-24 object-contain opacity-100 hover:opacity-100 transition duration-300"
+/>
               </div>
             ))}
           </div>

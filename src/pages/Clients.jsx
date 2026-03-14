@@ -359,6 +359,28 @@ export default function ClientsUI() {
       <img src="https://iwebapps.noidapower.com:8032/assets/img/logo.png"/>
     </div>
 
+    <div className="logo-card">
+  <img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Central_Police_Canteen_Logo.png"/>
+</div>
+
+<div className="logo-card">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Indian_Navy_crest.svg/250px-Indian_Navy_crest.svg.png"/>
+</div>
+
+<div className="logo-card">
+  <img src="https://d35xcwcl37xo08.cloudfront.net/current-affairs-wp-uploads/2025/04/indian_air_force_iaf_ensign.png"/>
+</div>
+
+<div className="logo-card">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT06zxrum2lNUWsCP7yXnz2ZVirpAUJQDmv2A&s"/>
+</div>
+
+
+
+<div className="logo-card">
+  <img src="https://www.thestatesman.com/wp-content/uploads/2024/11/Untitled-design-2024-11-04T150811.713-jpg.webp"/>
+</div>
+
     {/* duplicate for smooth loop */}
 
     <div className="logo-card">
@@ -418,7 +440,15 @@ aligned with defence standards and security protocols.
 </p>
 </div>
 
-
+<div className="logo-box">
+<img src="https://static.mygov.in/indiancc/2021/03/mygov-10000000001872105186-1024x1024.jpg"/>
+<h4>National Cadet Corps (NCC) Delhi</h4>
+<div className="rating">★★★★☆</div>
+<p>
+Supporting NCC units with professional manpower services
+ensuring organized and efficient training environments.
+</p>
+</div>
 {/* Meerut Cantt */}
 
 <div className="logo-box">
@@ -431,6 +461,16 @@ efficient functioning of defence infrastructure.
 </p>
 </div>
 
+
+<div className="logo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f8/Badge_of_the_Indian_Air_Force.png/960px-Badge_of_the_Indian_Air_Force.png"/>
+<h4>Indian Air Force</h4>
+<div className="rating">★★★★☆</div>
+<p>
+Trusted workforce deployment supporting operational and
+administrative activities across air force facilities.
+</p>
+</div>
 
 {/* Linde */}
 
@@ -457,6 +497,35 @@ consistent operational performance in power distribution.
 </p>
 </div>
 
+<div className="logo-box">
+<img src="https://upload.wikimedia.org/wikipedia/en/6/6e/Central_Police_Canteen_Logo.png"/>
+<h4>Central Police Organisation</h4>
+<div className="rating">★★★★☆</div>
+<p>
+Professional manpower and security support services assisting
+central police establishments with operational efficiency.
+</p>
+</div>
+
+<div className="logo-box">
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Indian_Navy_crest.svg/250px-Indian_Navy_crest.svg.png"/>
+<h4>Indian Navy (INHS Patanjali)</h4>
+<div className="rating">★★★★☆</div>
+<p>
+Providing disciplined manpower and facility support services
+for naval establishments and defence infrastructure.
+</p>
+</div>
+
+<div className="logo-box">
+<img src="https://upload.wikimedia.org/wikipedia/en/7/7a/Department_of_Biotechnology_India_Logo.png"/>
+<h4>Department of Biotechnology, Delhi</h4>
+<div className="rating">★★★★☆</div>
+<p>
+Providing manpower solutions for administrative and research
+support within biotechnology and government institutions.
+</p>
+</div>
 
 {/* DUPLICATE FOR SMOOTH SCROLL */}
 
@@ -528,11 +597,11 @@ consistent operational performance in power distribution.
       {/* COMPACT STATS */}
       <section className="stats">
         <div className="stat">
-          <h3>500+</h3>
+          <h3>15+</h3>
           <p>Clients Served</p>
         </div>
         <div className="stat">
-          <h3>10,000+</h3>
+          <h3>500+</h3>
           <p>Personnel Deployed</p>
         </div>
         <div className="stat">

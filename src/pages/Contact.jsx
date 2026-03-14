@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
+import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 
 /* ─── Scroll Reveal Hook ─── */
 function useInView(threshold = 0.15) {
@@ -239,20 +240,44 @@ setLoading(false);
         <div className="contact-grid">
 
           {/* LEFT SIDE */}
-          <div ref={revealRef1} className="reveal">
+         <div ref={revealRef1} className="reveal">
 
-            <div className="title-main">Let’s Build Something Strong Together</div>
+  <div className="title-main">Let’s Build Something Strong Together</div>
 
-            <div className="address-box">
-              <h4>Lucknow - Headquarters</h4>
-              <p>
-                3/290 Vipul Khand Gomti Nagar<br/>
-                Lucknow - 226010<br/>
-                +91-84232-15047
-              </p>
-            </div>
+  {/* Lucknow */}
+  <div className="address-box">
+    <h4>Lucknow - Headquarters</h4>
+    <p>
+      3/290 Vipul Khand Gomti Nagar<br/>
+      Lucknow - 226010<br/>
+      Phone: +91-84232-15047<br/>
+      Email: info@namdevassociates.com
+    </p>
+  </div>
 
-          </div>
+  {/* Bhopal */}
+  <div className="address-box">
+    <h4>Bhopal - Regional Office</h4>
+    <p>
+      M.NO.45, Chuna Bhatti ,Kolar Road<br/>
+      Bhopal - 462016<br/>
+      Phone: +91-XXXXXXXXXX<br/>
+      Email: bhopal@namdevassociates.com
+    </p>
+  </div>
+
+  {/* Delhi */}
+  <div className="address-box">
+    <h4>Delhi - Corporate Office</h4>
+    <p>
+      B15 Office No. 1 2nd Floor Matiala Rd Gulab B Block A Kiran Garden<br/>
+      Uttam Nagar ,New Delhi - 110059<br/>
+      Phone: +91-XXXXXXXXXX<br/>
+      Email: delhi@namdevassociates.com
+    </p>
+  </div>
+
+</div>
 
           {/* RIGHT SIDE FORM */}
 
