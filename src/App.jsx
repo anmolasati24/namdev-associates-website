@@ -7,7 +7,7 @@ import About from "./pages/About";
 import Services from "./pages/Services";
 import Contact from "./pages/Contact"
 
-
+import ScrollToTop from "./components/ScrollToTop";
 
 import ComplianceSection from "./pages/Compliance";
 import ClientsUI from "./pages/Clients";
@@ -18,6 +18,7 @@ function App() {
   return (
     <>
       <Header />
+       <ScrollToTop />
 
       <Routes>
         

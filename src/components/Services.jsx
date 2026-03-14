@@ -33,11 +33,11 @@ export default function Services() {
   ];
 
   return (
-    <section className="py-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto px-6">
+    <section className="py-16 sm:py-20 bg-gray-50">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Section Heading */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-12 sm:mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-blue-900">
             Our Core Services
           </h2>
@@ -49,7 +49,7 @@ export default function Services() {
         </div>
 
         {/* Grid */}
-        <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => (
             <div
               key={index}
@@ -60,7 +60,7 @@ export default function Services() {
                 <img
                   src={service.image}
                   alt={service.title}
-                  className="h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  className="h-52 sm:h-56 w-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 

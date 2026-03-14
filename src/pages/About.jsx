@@ -12,10 +12,10 @@ transition:{duration:0.6}
 };
 
 return (
-<div className="pt-40 bg-white">
+<div className="pt-36 md:pt-44 bg-white">
 
 {/* Banner */}
-<section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 py-20 text-white overflow-hidden">
+<section className="relative bg-gradient-to-r from-blue-900 via-blue-800 to-blue-700 py-16 md:py-20 text-white overflow-hidden">
 
 <div className="absolute inset-0 opacity-10 bg-[url('/assets/pattern.png')]"></div>
 
@@ -23,7 +23,7 @@ return (
 initial={{opacity:0,y:40}}
 animate={{opacity:1,y:0}}
 transition={{duration:0.8}}
-className="max-w-7xl mx-auto px-6 text-center"
+className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"
 >
 
 <h1 className="text-5xl font-bold mb-6 tracking-tight">
@@ -40,9 +40,9 @@ and facility management solutions across India.
 
 
 {/* Stats */}
-<section className="py-20 bg-gray-50">
+<section className="py-14 sm:py-16 bg-gray-50">
 
-<div className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-8">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
 
 {[
 { number:"7+",label:"Years Experience"},
@@ -74,9 +74,9 @@ className="bg-white p-10 rounded-xl shadow-lg text-center border hover:-translat
 
 
 {/* Main Layout */}
-<section className="py-24">
+<section className="py-16 sm:py-20">
 
-<div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-4 gap-16">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 lg:grid-cols-4 gap-8 lg:gap-16">
 
 {/* Sidebar */}
 <div className="lg:col-span-1">
@@ -123,11 +123,11 @@ transition={{duration:0.5}}
 {activeSection==="who" &&(
 <div>
 
-<h2 className="text-4xl font-bold text-blue-900 mb-6">
+<h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-blue-900 mb-4 md:mb-6">
 Who We Are
 </h2>
 
-<p className="text-gray-700 leading-relaxed mb-6">
+<p className="text-gray-700 leading-relaxed mb-6 text-sm md:text-base">
 Namdev Associates is an ISO 9001:2015 certified manpower and facility
 management organization delivering structured workforce outsourcing
 solutions to Government and Corporate institutions across India.
@@ -159,7 +159,7 @@ className="w-full h-[420px] object-cover hover:scale-105 transition duration-500
 Vision & Mission
 </h2>
 
-<div className="grid md:grid-cols-2 gap-10">
+<div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10">
 
 <div className="p-10 rounded-xl border bg-white shadow hover:shadow-xl transition">
 
@@ -201,7 +201,7 @@ solutions that enhance operational productivity.
 Our Leadership
 </h2>
 
-<div className="grid md:grid-cols-3 gap-8">
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
 
 {[
 {
@@ -309,7 +309,7 @@ standards across all manpower operations.
 Why Choose Namdev Associates
 </h2>
 
-<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+<div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6 lg:gap-8">
 
 {[
 "Statutory Compliance",
@@ -320,7 +320,7 @@ Why Choose Namdev Associates
 <motion.div
 key={i}
 whileHover={{scale:1.05}}
-className="bg-white p-8 rounded-xl shadow hover:shadow-2xl transition"
+className="bg-white p-6 sm:p-7 rounded-xl shadow hover:shadow-2xl transition"
 >
 
 <h4 className="font-semibold text-lg mb-3 text-gray-800">

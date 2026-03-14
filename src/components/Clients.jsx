@@ -7,8 +7,8 @@ export default function Clients() {
   ];
 
   return (
-    <section className="py-28 bg-gray-50 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 text-center">
+    <section className="py-20 sm:py-24 bg-gray-50 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
         {/* Small Heading */}
         <p className="uppercase tracking-widest text-gray-500 text-sm mb-4">
@@ -48,11 +48,11 @@ export default function Clients() {
 
         {/* Logo Marquee */}
         <div className="relative w-full overflow-hidden">
-          <div className="flex gap-24 animate-scroll">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-12 animate-scroll">
             {[...clients, ...clients].map((client, index) => (
               <div
                 key={index}
-                className="flex items-center justify-center opacity-70 hover:opacity-100 transition duration-300"
+                className="flex items-center justify-center opacity-70 hover:opacity-100 transition duration-300" style={{ minWidth: '120px' }}
               >
                 <img
                   src={client.logo}

@@ -201,12 +201,38 @@ export default function ComplianceSection() {
         transform:translateY(0);
       }
 
+      @media (max-width: 1024px) {
+        .compliance-section { padding: 120px 4% 70px; }
+        .compliance-header h2 { font-size: 2rem; }
+        .compliance-header p { font-size: 0.95rem; }
+        .compliance-card { padding: 24px; }
+        .risk-box { padding: 28px; margin-top: 30px; }
+      }
+
+      @media (max-width: 768px) {
+        .compliance-section { padding: 90px 3% 50px; }
+        .compliance-header { margin-bottom: 35px; }
+        .compliance-header h2 { font-size: 1.85rem; }
+        .compliance-grid { gap: 18px; }
+        .compliance-stats { gap: 25px; margin-bottom: 40px; }
+        .stat-box h3 { font-size: 2rem; }
+        .risk-box { padding: 20px; }
+        .risk-box h3 { font-size: 1.5rem; }
+      }
+
+      @media (max-width: 500px) {
+        .compliance-section { padding: 70px 2.5% 40px; }
+        .compliance-section::before { width: 420px; height: 420px; top: -160px; right: -120px; }
+        .compliance-card { padding: 18px; }
+        .stat-box h3 { font-size: 1.6rem; }
+      }
+
       `}</style>
 
       <section className="compliance-section">
         <div ref={revealRef} className="reveal">
 
-          <div className="compliance-header">
+          <div className="compliance-header max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <h2>Statutory Compliance & Governance Framework</h2>
             <p>
               We operate with complete adherence to Central & State Labour Laws,
@@ -217,7 +243,7 @@ export default function ComplianceSection() {
           </div>
 
           {/* CARDS */}
-          <div className="compliance-grid">
+          <div className="compliance-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
 
             <div className="compliance-card">
               <h4>Labour Law Compliance</h4>
@@ -253,7 +279,7 @@ export default function ComplianceSection() {
           </div>
 
           {/* COUNTERS */}
-          <div className="compliance-stats">
+          <div className="compliance-stats flex flex-wrap justify-center gap-4 md:gap-8">
             <div className="stat-box">
               <h3><Counter end={100}/> %</h3>
               <p>Compliance Rate</p>
