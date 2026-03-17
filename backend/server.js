@@ -12,6 +12,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+/* ---------------- Root Route ---------------- */
+
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "Namdev Associates API is running ✅",
+    routes: [
+      "POST /api/consultation",
+      "GET  /api/consultations"
+    ]
+  });
+});
+
 /* ---------------- MongoDB Connection ---------------- */
 
 mongoose
