@@ -58,7 +58,7 @@ const ConsultationPage = () => {
     try {
 
       const res = await axios.post(
-  "http://localhost:5000/api/consultation",
+  "https://namdev-associates-website.onrender.com/api/consultation",
   formData
 );
       if (res.data.success) {
