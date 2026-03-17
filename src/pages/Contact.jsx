@@ -57,7 +57,7 @@ setSuccess(false);
 
 try{
 
-await axios.post("http://localhost:5000/api/contact",formData);
+await axios.post("https://namdev-associates-website.onrender.com/api/contact",formData);
 
 setSuccess(true);
 
