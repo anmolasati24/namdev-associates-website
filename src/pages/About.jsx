@@ -235,6 +235,13 @@ phone:"+91 8423215047",
 email:"namdevassociateslko@gmail.com",
 image:"/assets/svv.jpeg"
 },
+{
+name:"Miss Sweta Maurya",
+role:"HR Coordinator",
+phone:"+91 8423215047",
+email:"namdevassociateslko@gmail.com",
+image:"/assets/Sweta.jpg"
+}
 
 ].map((p,i)=>(
 
