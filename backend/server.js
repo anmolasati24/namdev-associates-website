@@ -39,14 +39,14 @@ mongoose
 
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port: 587,          // ✅ change from 465 → 587
+  secure: false,      // ✅ MUST be false for 587
+  family: 4,          // 🔥 FORCE IPv4 (VERY IMPORTANT)
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS
   }
 });
-
 /* ---------------- Keep Render Awake ---------------- */
 
 setInterval(() => {
