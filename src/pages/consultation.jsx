@@ -49,7 +49,7 @@ const ConsultationPage = () => {
     try {
 
       const res = await axios.post(
-        "https://namdev-associates-website-1.onrender.com/api/consultations",
+        "https://namdev-associates-website-1.onrender.com/api/consultation",
         formData
       );//https://namdev-associates-website-1.onrender.com/
 
