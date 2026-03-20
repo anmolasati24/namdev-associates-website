@@ -49,9 +49,9 @@ const ConsultationPage = () => {
     try {
 
       const res = await axios.post(
-        "https://namdev-associates-website-1.onrender.com/api/consultation",
+        "https://namdev-associates-website-1.onrender.com/api/consultations",
         formData
-      );
+      );//https://namdev-associates-website-1.onrender.com/
 
       if (res.data.success) {
 
