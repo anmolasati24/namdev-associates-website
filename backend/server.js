@@ -10,7 +10,16 @@ const Contact = require("./models/contactmodel"); // ← new model
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://namdev-associates-website-nccv-4vccm2f2n-anmolasati24s-projects.vercel.app/",
+    /\.vercel\.app$/
+  ],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 app.use(express.json());
 
 /* ---------------- Root Route ---------------- */
