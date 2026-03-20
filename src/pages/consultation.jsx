@@ -44,23 +44,15 @@ const ConsultationPage = () => {
 
     e.preventDefault();
 
-    // if (!captcha) {
-    //   Swal.fire({
-    //     icon: "warning",
-    //     title: "Captcha Required",
-    //     text: "Please verify that you are not a robot."
-    //   });
-    //   return;
-    // }
-
     setLoading(true);
 
     try {
 
       const res = await axios.post(
-  "https://namdev-associates-website.onrender.com/api/consultation",
-  formData
-);
+        "http://localhost:5000/api/consultation",
+        formData
+      );
+
       if (res.data.success) {
 
         Swal.fire({
@@ -72,7 +64,6 @@ const ConsultationPage = () => {
 
         setFormData(initialState);
 
-       
       }
 
     } catch (error) {
@@ -294,8 +285,6 @@ const ConsultationPage = () => {
               <textarea name="description" rows="5" placeholder="Detailed Project Description *" value={formData.description} onChange={handleChange} required className="w-full" />
 
             </div>
-
-           
 
             <button className="submit-btn" disabled={loading}>
               {loading ? "Submitting..." : "Submit Official Consultation Request"}

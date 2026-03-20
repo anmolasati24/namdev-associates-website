@@ -62,7 +62,6 @@ export default function ComplianceSection() {
       <style>{`
 
       .compliance-section{
-         
         padding:200px 8% 120px;
         background:linear-gradient(135deg,#0a1a52 0%, #1e40af 100%);
         color:#fff;
@@ -174,20 +173,24 @@ export default function ComplianceSection() {
       }
 
       .download-btn{
+        display:inline-block;
         margin-top:25px;
         padding:14px 35px;
         border-radius:40px;
         border:none;
         font-weight:600;
+        font-size:15px;
         background:linear-gradient(135deg,#0a1a52,#2563EB);
         color:#fff;
         cursor:pointer;
         transition:0.4s;
+        text-decoration:none;
       }
 
       .download-btn:hover{
         transform:translateY(-4px);
         box-shadow:0 15px 35px rgba(37,99,235,0.5);
+        color:#fff;
       }
 
       .reveal{
@@ -302,9 +305,13 @@ export default function ComplianceSection() {
               compliant, audit-ready and risk-mitigated. We handle all regulatory
               responsibilities — so you can focus on operations.
             </p>
-            <button className="download-btn">
+            <a
+              href="/compliance-profile.pdf"
+              download="Namdev-Associates-Compliance-Profile.pdf"
+              className="download-btn"
+            >
               Download Compliance Profile →
-            </button>
+            </a>
           </div>
 
         </div>

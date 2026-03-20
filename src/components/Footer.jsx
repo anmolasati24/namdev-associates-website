@@ -105,7 +105,12 @@ export default function Footer() {
                 <FaTwitter size={16} />
               </a>
 
-              <a href="#" className="bg-[#0A66C2] p-3 rounded-full hover:scale-110 hover:bg-[#004182] transition transform duration-300 shadow-md">
+              <a
+                href="https://www.linkedin.com/company/namdev-associates/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-[#0A66C2] p-3 rounded-full hover:scale-110 hover:bg-[#004182] transition transform duration-300 shadow-md"
+              >
                 <FaLinkedinIn size={16} />
               </a>
 
@@ -143,7 +148,7 @@ export default function Footer() {
 
       {/* WhatsApp Floating Button */}
       <a
-        href="https://wa.me/91XXXXXXXXXX"
+        href="https://wa.me/918423215047"
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 left-6 bg-green-500 text-white p-4 rounded-full shadow-lg hover:bg-green-400 hover:scale-110 transition transform duration-300"
