@@ -3,7 +3,7 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-const nodemailer = require("nodemailer");
+const { Resend } = require("resend"); // ✅ Resend instead of nodemailer
 
 const Consultation = require("./models/Consultation");
 const Contact = require("./models/contactmodel");
@@ -35,18 +35,10 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-/* ---------------- Email Transporter (Fixed for Render) ---------------- */
+/* ---------------- Resend Setup ---------------- */
 
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,          // ✅ change from 465 → 587
-  secure: false,      // ✅ MUST be false for 587
-  family: 4,          // 🔥 FORCE IPv4 (VERY IMPORTANT)
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
-  }
-});
+const resend = new Resend(process.env.RESEND_API_KEY); // ✅ uses env variable
+
 /* ---------------- Keep Render Awake ---------------- */
 
 setInterval(() => {
@@ -75,8 +67,8 @@ app.post("/api/contact", async (req, res) => {
     await newContact.save();
 
     /* -------- Email 1 → Company Notification -------- */
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "Namdev Associates <no-reply@namdevassociates.com>", // ✅ verified domain
       to: process.env.EMAIL_USER,
       subject: `New Contact Enquiry from ${name} - Namdev Associates`,
       html: `
@@ -112,8 +104,8 @@ app.post("/api/contact", async (req, res) => {
     });
 
     /* -------- Email 2 → Client Auto-Reply -------- */
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "Namdev Associates <no-reply@namdevassociates.com>", // ✅ verified domain
       to: email,
       subject: "We've Received Your Enquiry – Namdev Associates",
       html: `
@@ -193,8 +185,8 @@ app.post("/api/consultation", async (req, res) => {
     await newConsultation.save();
 
     /* -------- Email 1 → Company -------- */
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "Namdev Associates <no-reply@namdevassociates.com>", // ✅ verified domain
       to: process.env.EMAIL_USER,
       subject: "New Consultation Request - Namdev Associates",
       html: `
@@ -223,8 +215,8 @@ app.post("/api/consultation", async (req, res) => {
     });
 
     /* -------- Email 2 → Client Confirmation -------- */
-    await transporter.sendMail({
-      from: process.env.EMAIL_USER,
+    await resend.emails.send({
+      from: "Namdev Associates <no-reply@namdevassociates.com>", // ✅ verified domain
       to: data.email,
       subject: "Consultation Request Received – Namdev Associates",
       html: `
