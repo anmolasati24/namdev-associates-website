@@ -55,7 +55,7 @@ export default function Contact() {
 
     /* ── 1. Send Email via backend ── */
     try {
-      await axios.post("http://localhost:5000/api/contact", formData);
+      await axios.post("https://namdev-associates-website-1.onrender.com/api/contact", formData);
     } catch (err) {
       // If backend fails, still proceed with WhatsApp
       setError("⚠️ Email could not be sent, but your WhatsApp message is ready below.");
