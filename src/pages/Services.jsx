@@ -543,7 +543,7 @@ export default function Services() {
 
         /* ── TABLET-LG 768px ── */
         @media (min-width:768px) {
-          .ind-cards { grid-template-columns:repeat(3,1fr); }
+          .ind-cards { grid-template-columns:repeat(2,1fr); }
           .ind-header { padding:72px 32px 52px; }
         }
 

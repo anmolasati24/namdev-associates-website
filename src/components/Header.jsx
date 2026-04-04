@@ -90,7 +90,7 @@ export default function Header() {
         </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex flex-wrap gap-3 lg:gap-8 font-medium text-gray-700 text-sm md:text-base">
+        <nav className="hidden lg:flex flex-wrap gap-3 lg:gap-8 font-medium text-gray-700 text-sm lg:text-base">
           <NavLink to="/" className={navClass}>Home</NavLink>
           <NavLink to="/about" className={navClass}>About Us</NavLink>
           <NavLink to="/services" className={navClass}>Services</NavLink>
@@ -100,7 +100,7 @@ export default function Header() {
         </nav>
 
         {/* ISO Badge */}
-        <div className="hidden md:flex flex-col items-center border-l pl-6">
+        <div className="hidden lg:flex flex-col items-center border-l pl-6">
           <img
             src="/iso.jpg"
             alt="ISO Certified"
@@ -113,7 +113,7 @@ export default function Header() {
 
         {/* Mobile Button */}
         <button
-          className="md:hidden text-3xl text-gray-700"
+          className="lg:hidden text-3xl text-gray-700"
           onClick={() => setMenuOpen(true)}
         >
           ☰
