@@ -1,7 +1,5 @@
 import {
   FaFacebookF,
-  FaTwitter,
-  FaYoutube,
   FaLinkedinIn,
   FaArrowUp,
   FaWhatsapp,
@@ -9,6 +7,8 @@ import {
   FaEnvelope,
   FaMapMarkerAlt,
 } from "react-icons/fa";
+import { FaXTwitter } from "react-icons/fa6";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -32,11 +32,11 @@ export default function Footer() {
             </h3>
 
             <ul className="space-y-3 text-sm mt-4">
-              <li className="hover:text-white cursor-pointer transition">About Us</li>
-              <li className="hover:text-white cursor-pointer transition">Vision & Mission</li>
-              <li className="hover:text-white cursor-pointer transition">Leadership</li>
-              <li className="hover:text-white cursor-pointer transition">Our Team</li>
-              <li className="hover:text-white cursor-pointer transition">Compliance</li>
+              <li className="hover:text-white cursor-pointer transition"><Link to="/about">About Us</Link></li>
+              <li className="hover:text-white cursor-pointer transition"><Link to="/about">Vision & Mission</Link></li>
+              <li className="hover:text-white cursor-pointer transition"><Link to="/team#leadership">Our Leadership</Link></li>
+              <li className="hover:text-white cursor-pointer transition"><Link to="/team#core-team">Our Team</Link></li>
+              <li className="hover:text-white cursor-pointer transition"><Link to="/compliance">Compliance</Link></li>
             </ul>
           </div>
 
@@ -97,12 +97,8 @@ export default function Footer() {
                 <FaFacebookF size={16} />
               </a>
 
-              <a href="#" className="bg-red-600 p-3 rounded-full hover:scale-110 hover:bg-red-500 transition transform duration-300 shadow-md">
-                <FaYoutube size={16} />
-              </a>
-
-              <a href="#" className="bg-blue-500 p-3 rounded-full hover:scale-110 hover:bg-blue-400 transition transform duration-300 shadow-md">
-                <FaTwitter size={16} />
+              <a href="#" className="bg-black text-white p-3 rounded-full hover:scale-110 hover:bg-gray-800 transition transform duration-300 shadow-md">
+                <FaXTwitter size={16} />
               </a>
 
               <a

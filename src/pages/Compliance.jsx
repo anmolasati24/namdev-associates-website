@@ -205,17 +205,17 @@ export default function ComplianceSection() {
       }
 
       @media (max-width: 1024px) {
-        .compliance-section { padding: 120px 4% 70px; }
-        .compliance-header h2 { font-size: 2rem; }
+        .compliance-section { padding: 150px 4% 70px; }
+        .compliance-header h2 { font-size: 2.5rem; }
         .compliance-header p { font-size: 0.95rem; }
         .compliance-card { padding: 24px; }
         .risk-box { padding: 28px; margin-top: 30px; }
       }
 
       @media (max-width: 768px) {
-        .compliance-section { padding: 90px 3% 50px; }
+        .compliance-section { padding: 120px 3% 50px; }
         .compliance-header { margin-bottom: 35px; }
-        .compliance-header h2 { font-size: 1.85rem; }
+        .compliance-header h2 { font-size: 2.1rem; }
         .compliance-grid { gap: 18px; }
         .compliance-stats { gap: 25px; margin-bottom: 40px; }
         .stat-box h3 { font-size: 2rem; }
@@ -224,7 +224,7 @@ export default function ComplianceSection() {
       }
 
       @media (max-width: 500px) {
-        .compliance-section { padding: 70px 2.5% 40px; }
+        .compliance-section { padding: 120px 2.5% 40px; }
         .compliance-section::before { width: 420px; height: 420px; top: -160px; right: -120px; }
         .compliance-card { padding: 18px; }
         .stat-box h3 { font-size: 1.6rem; }
@@ -292,7 +292,7 @@ export default function ComplianceSection() {
               <p>Years Governance Experience</p>
             </div>
             <div className="stat-box">
-              <h3><Counter end={12}/>+</h3>
+              <h3><Counter end={13}/>+</h3>
               <p>Clients Served</p>
             </div>
           </div>

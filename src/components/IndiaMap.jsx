@@ -31,7 +31,7 @@ const OFFICES = [
   },
   {
     name: "Rudrapur – Branch Office",
-    coordinates: [79.4032, 28.9774],  // Rudrapur, Udham Singh Nagar, Uttarakhand exact
+    coordinates: [79.4032, 28.9774],
     state: "Uttarakhand",
     address: "Ward No. 27, Gandhi Colony, Rudrapur, Udham Singh Nagar – 263153",
     phone: "+91-84232-15047",
@@ -42,7 +42,7 @@ const OFFICES = [
   },
   {
     name: "Sikar – Branch Office",
-    coordinates: [75.1398, 27.6094],  // Sikar, Rajasthan exact
+    coordinates: [75.1398, 27.6094],
     state: "Rajasthan",
     address: "Radhakishanpura, Sikar, Rajasthan",
     phone: "+91-84232-15047",
@@ -90,7 +90,7 @@ const SERVICES = [
   },
   {
     name: "Director General NCC (DGNCC)",
-    coordinates: [77.1855, 28.5986],
+    coordinates: [77.1673, 28.6300],
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Defence",
     orgName: "Director General of National Cadet Corps (DGNCC)", zone: "Delhi",
     type: "Manpower Outsourcing", icon: "🎖️",
@@ -104,14 +104,14 @@ const SERVICES = [
   },
   {
     name: "Directorate of Pension, UP",
-    coordinates: [80.9196, 26.8681],
+    coordinates: [80.9000, 26.8750],
     orgType: "State Government", ministry: "—", department: "Finance Department Uttar Pradesh",
     orgName: "Directorate of Pension, Govt. of Uttar Pradesh", zone: "Lucknow",
     type: "Housekeeping & Facility Mgmt.", icon: "🏛️",
   },
   {
     name: "Food Safety & Drug Admin.",
-    coordinates: [80.9271, 26.8553],
+    coordinates: [80.9500, 26.8400],
     orgType: "State Government", ministry: "—", department: "Food Safety & Drug Administration Dept., UP",
     orgName: "Food Safety and Drug Administration", zone: "Lucknow Head Office",
     type: "Support Staff & Security", icon: "🏥",
@@ -132,7 +132,7 @@ const SERVICES = [
   },
   {
     name: "Basic Shikha Department, Badaun",
-    coordinates: [79.1218, 28.0368],  // Badaun District, UP exact
+    coordinates: [79.1218, 28.0368],
     orgType: "State Government", ministry: "—", department: "Basic Education Department, Uttar Pradesh",
     orgName: "Basic Shikha Department", zone: "Badaun District, Uttar Pradesh",
     type: "Support Staff & Facility Mgmt.", icon: "🏫",
@@ -143,11 +143,10 @@ const SERVICES = [
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Military Affairs",
     orgName: "Indian Army", zone: "Meerut Cantonment, Uttar Pradesh",
     type: "Security & Manpower Deployment", icon: "🪖",
-    contractNo: "",
   },
   {
     name: "Indian Navy – Karwar",
-    coordinates: [74.1240, 14.8135],  // Karwar, Karnataka (INS Kadamba) exact
+    coordinates: [74.1240, 14.8135],
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Military Affairs",
     orgName: "Indian Navy", zone: "Karwar, Karnataka",
     type: "Ward Boy Services", icon: "⚓",
@@ -155,7 +154,7 @@ const SERVICES = [
   },
   {
     name: "Dept. of Biotechnology – Delhi",
-    coordinates: [77.2090, 28.6350],  // DBT HQ, CGO Complex, New Delhi
+    coordinates: [77.2290, 28.6350],
     orgType: "Central Government", ministry: "Ministry of Science & Technology", department: "Department of Biotechnology",
     orgName: "Department of Biotechnology, Govt. of India", zone: "New Delhi",
     type: "Semi-Skilled, Graduate & Administrative Manpower", icon: "🔬",
@@ -163,17 +162,28 @@ const SERVICES = [
   },
   {
     name: "Ordnance Factory – Kanpur",
-    coordinates: [80.3318, 26.4499],  // Ordnance Factory, Kanpur exact
+    coordinates: [80.3318, 26.4499],
     orgType: "Central Government", ministry: "Ministry of Defence", department: "Department of Defence Production",
     orgName: "Ordnance Factory Board – Kanpur", zone: "Kanpur, Uttar Pradesh",
     type: "Skilled & Semi-Skilled Manpower", icon: "🏭",
-    contractNo: "", contractValue: "",
+  },
+  // ── NEW CONTRACT ──
+  {
+    name: "Airports Authority of India – Datia",
+    coordinates: [78.4572, 25.6706],
+    orgType: "Central PSU", ministry: "Ministry of Civil Aviation", department: "Airports Authority of India (AAI)",
+    orgName: "AAI – ANS, Finance, HR, Engineering, Tech, OPS, Commercial, General Store, IT",
+    zone: "Datia, Madhya Pradesh (Bhopal Western Region)",
+    type: "Manpower Outsourcing – Skilled & Unskilled (11 Resources)",
+    icon: "✈️",
+    contractNo: "GEMC-511687745310880",
+    contractValue: "₹34.00 Lakh",
   },
 ];
 
 export default function IndiaMap() {
   const [filter, setFilter]     = useState("all");
-  const [hovered, setHovered]   = useState(null); // { loc, x, y }
+  const [hovered, setHovered]   = useState(null);
 
   const showOffices  = filter === "all" || filter === "office";
   const showServices = filter === "all" || filter === "service";
@@ -197,7 +207,6 @@ export default function IndiaMap() {
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* ── SECTION ── */
         .imap {
           font-family: 'DM Sans', sans-serif;
           background: #060d1f;
@@ -213,7 +222,6 @@ export default function IndiaMap() {
         }
         .imap-orb { position: absolute; border-radius: 50%; pointer-events: none; filter: blur(80px); }
 
-        /* ── HEADER ── */
         .imap-hd { text-align: center; margin-bottom: 48px; position: relative; z-index: 2; }
         .imap-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
@@ -241,7 +249,6 @@ export default function IndiaMap() {
         .imap-divider-line.r { background: linear-gradient(90deg,rgba(96,165,250,0.35),transparent); }
         .imap-divider-gem    { width: 6px; height: 6px; background: #60a5fa; transform: rotate(45deg); opacity: .6; }
 
-        /* ── FILTERS ── */
         .imap-filters { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 36px; position: relative; z-index: 2; }
         .imap-btn {
           display: inline-flex; align-items: center; gap: 8px;
@@ -256,11 +263,9 @@ export default function IndiaMap() {
         .imap-btn.a-svc { background: linear-gradient(135deg,#1e3a8a,#2563eb); border-color: #60a5fa; color: #fff; box-shadow: 0 4px 20px rgba(96,165,250,.28); }
         .btn-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
-        /* ── LAYOUT ── */
         .imap-grid { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: 1fr; gap: 20px; position: relative; z-index: 2; }
         @media (min-width: 1060px) { .imap-grid { grid-template-columns: 1fr 340px; } }
 
-        /* ── MAP CARD ── */
         .imap-card {
           border-radius: 16px; overflow: hidden;
           border: 1px solid rgba(96,165,250,0.15);
@@ -286,7 +291,6 @@ export default function IndiaMap() {
         .chrome-num { color: rgba(255,255,255,0.7); }
         .chrome-lbl { color: rgba(255,255,255,0.28); }
 
-        /* Map canvas */
         .imap-canvas {
           background: radial-gradient(ellipse 100% 100% at 50% 50%, #0c1d4d 0%, #050d26 100%);
           position: relative;
@@ -296,7 +300,6 @@ export default function IndiaMap() {
           background: radial-gradient(ellipse 88% 88% at 50% 50%, transparent 52%, rgba(3,7,20,.65) 100%);
         }
 
-        /* ── HOVER CARD (tooltip) ── */
         .imap-hovercard {
           position: absolute;
           z-index: 50;
@@ -366,10 +369,8 @@ export default function IndiaMap() {
           box-shadow: 0 3px 14px rgba(37,99,235,.3);
         }
 
-        /* pointer-events on the cta need to work even inside pointer-events:none card */
         .imap-hovercard.pinned { pointer-events: auto; }
 
-        /* ── LEGEND ── */
         .imap-legend {
           display: flex; gap: 28px; flex-wrap: wrap; align-items: center; justify-content: center;
           padding: 13px 20px 15px;
@@ -383,7 +384,6 @@ export default function IndiaMap() {
         }
         .imap-hint::before,.imap-hint::after { content: ''; width: 28px; height: 1px; background: rgba(96,165,250,0.12); }
 
-        /* ── RIGHT PANEL ── */
         .imap-panel { display: flex; flex-direction: column; gap: 16px; }
         .imap-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
         .imap-stat {
@@ -447,7 +447,6 @@ export default function IndiaMap() {
         <div className="imap-orb" style={{ width:700,height:700,top:-280,left:-160,background:"radial-gradient(circle,rgba(29,78,216,0.2) 0%,transparent 62%)" }} />
         <div className="imap-orb" style={{ width:500,height:500,bottom:-200,right:"-8%",background:"radial-gradient(circle,rgba(14,36,99,0.18) 0%,transparent 62%)" }} />
 
-        {/* HEADER */}
         <div className="imap-hd">
           <div className="imap-eyebrow"><span className="imap-pulse" />National Presence</div>
           <h2 className="imap-h2">Where We <span>Operate</span></h2>
@@ -459,7 +458,6 @@ export default function IndiaMap() {
           </div>
         </div>
 
-        {/* FILTERS */}
         <div className="imap-filters">
           {[
             { k:"all",    l:"All Locations", a:"a-all", d:"#60a5fa" },
@@ -473,10 +471,8 @@ export default function IndiaMap() {
           ))}
         </div>
 
-        {/* GRID */}
         <div className="imap-grid">
 
-          {/* MAP CARD */}
           <div className="imap-card">
             <div className="imap-chrome">
               <div className="chrome-dots">
@@ -491,7 +487,6 @@ export default function IndiaMap() {
               </div>
             </div>
 
-            {/* ── MAP CANVAS (relative so hover card is positioned within it) ── */}
             <div className="imap-canvas" style={{position:"relative"}}>
               <ComposableMap
                 projection="geoMercator"
@@ -542,7 +537,6 @@ export default function IndiaMap() {
                   }
                 </Geographies>
 
-                {/* ── OFFICE MARKERS (red pin-drop) ── */}
                 {showOffices && OFFICES.map((o, i) => (
                   <Marker key={`o${i}`} coordinates={o.coordinates}>
                     <g
@@ -552,7 +546,6 @@ export default function IndiaMap() {
                       onClick={() => window.open(`https://www.google.com/maps?q=${o.coordinates[1]},${o.coordinates[0]}`, "_blank")}
                       filter="url(#glow-red)"
                     >
-                      {/* Pulse ring */}
                       <circle r={0} fill="none" stroke="#ef4444" strokeWidth={1.2} opacity={0.7}>
                         <animate attributeName="r"       values="0;22;0"     dur="2.6s" repeatCount="indefinite" begin={`${i*0.5}s`}/>
                         <animate attributeName="opacity" values="0.7;0;0.7"  dur="2.6s" repeatCount="indefinite" begin={`${i*0.5}s`}/>
@@ -566,7 +559,6 @@ export default function IndiaMap() {
                   </Marker>
                 ))}
 
-                {/* ── SERVICE MARKERS (blue target) ── */}
                 {showServices && SERVICES.map((s, i) => (
                   <Marker key={`s${i}`} coordinates={s.coordinates}>
                     <g
@@ -587,19 +579,12 @@ export default function IndiaMap() {
 
               </ComposableMap>
 
-              {/* ── HOVER CARD — floats over the map ── */}
               {hovered && (() => {
                 const loc = hovered.loc;
                 const isOff = loc.kind === "office";
                 const k = isOff ? "off" : "svc";
                 return (
-                  <div
-                    className="imap-hovercard"
-                    style={{
-                      /* Position top-right area so it doesn't cover the map */
-                      top: 20, right: 20,
-                    }}
-                  >
+                  <div className="imap-hovercard" style={{ top: 20, right: 20 }}>
                     <div className={`hc-stripe ${k}`} />
                     <div className="hc-head">
                       <div className={`hc-icon ${k}`}>{isOff ? "🏢" : (loc.icon || "📍")}</div>
@@ -648,7 +633,6 @@ export default function IndiaMap() {
               <div className="imap-hint">Hover any marker for details · Click to open in Maps</div>
             </div>
 
-            {/* LEGEND */}
             <div className="imap-legend">
               <div className="leg-item">
                 <svg width="14" height="21" viewBox="0 0 14 21">
@@ -673,7 +657,6 @@ export default function IndiaMap() {
             </div>
           </div>
 
-          {/* RIGHT PANEL */}
           <div className="imap-panel">
             <div className="imap-stats">
               <div className="imap-stat red">

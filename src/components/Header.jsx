@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { FaPhoneAlt, FaBriefcase, FaFileAlt, FaSearch, FaTimes } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { FaPhoneAlt, FaUsers, FaBriefcase, FaFileAlt, FaSearch, FaTimes } from "react-icons/fa";
+import { NavLink, useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const navigate = useNavigate();
 
   const navClass = ({ isActive }) =>
     `relative pb-1 transition ${
@@ -19,23 +21,57 @@ export default function Header() {
       <div className="bg-gray-100 py-3">
         <div className="max-w-7xl mx-auto flex flex-wrap justify-center items-center gap-2 sm:gap-6 text-blue-900 text-xs sm:text-sm md:text-base px-3">
 
-          <div className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition">
+          <NavLink
+            to="/contact"
+            className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition"
+          >
             <FaPhoneAlt />
             <span className="font-medium">Helpline</span>
-          </div>
+          </NavLink>
 
-          <div className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition">
-            <FaBriefcase />
-            <span className="font-medium">Careers</span>
-          </div>
+          <NavLink to="/team" className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition">
+            <FaUsers />
+            <span className="font-medium">Team</span>
+          </NavLink>
 
-          <div className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition">
+          {/* ✅ Tenders now linked to /tenders */}
+          <NavLink
+            to="/tenders"
+            className="flex items-center space-x-2 cursor-pointer hover:text-blue-700 transition"
+          >
             <FaFileAlt />
             <span className="font-medium">Tenders</span>
-          </div>
+          </NavLink>
 
-          <div className="cursor-pointer hover:text-blue-700 transition">
-            <FaSearch />
+          <div className="flex items-center">
+            <div className={`overflow-hidden transition-all duration-300 flex items-center ${searchOpen ? 'w-32 sm:w-48 opacity-100 mr-2' : 'w-0 opacity-0 mr-0'}`}>
+              <input 
+                type="text" 
+                placeholder="Search..." 
+                className="w-full bg-white border border-gray-300 text-gray-800 rounded-full px-3 py-1 text-xs outline-none focus:border-blue-500 shadow-sm"
+                onKeyDown={(e) => {
+                   if(e.key === 'Enter') {
+                      if (e.target.value.trim()) {
+                        navigate(`/search?q=${encodeURIComponent(e.target.value.trim())}`);
+                      }
+                      setSearchOpen(false);
+                      e.target.value = '';
+                   }
+                }}
+                onBlur={(e) => {
+                  if (!e.target.value) {
+                    setSearchOpen(false);
+                  }
+                }}
+              />
+            </div>
+            <div 
+              className="cursor-pointer hover:text-blue-700 transition"
+              onClick={() => setSearchOpen(!searchOpen)}
+              title="Search"
+            >
+              <FaSearch />
+            </div>
           </div>
 
         </div>
@@ -111,10 +147,12 @@ export default function Header() {
         <nav className="flex flex-col space-y-6 px-6 py-6 font-medium text-gray-700">
           <NavLink to="/" onClick={() => setMenuOpen(false)} className={navClass}>Home</NavLink>
           <NavLink to="/about" onClick={() => setMenuOpen(false)} className={navClass}>About Us</NavLink>
+          <NavLink to="/team" onClick={() => setMenuOpen(false)} className={navClass}>Team</NavLink>
           <NavLink to="/services" onClick={() => setMenuOpen(false)} className={navClass}>Services</NavLink>
           <NavLink to="/compliance" onClick={() => setMenuOpen(false)} className={navClass}>Compliance</NavLink>
           <NavLink to="/clients" onClick={() => setMenuOpen(false)} className={navClass}>Clients</NavLink>
           <NavLink to="/contact" onClick={() => setMenuOpen(false)} className={navClass}>Contact</NavLink>
+          <NavLink to="/tenders" onClick={() => setMenuOpen(false)} className={navClass}>Tenders</NavLink>
         </nav>
 
       </div>

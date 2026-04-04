@@ -119,9 +119,9 @@ const SERVICES = [
 
 const STATS = [
   { value: "7+", label: "Years of Experience" },
-  { value: "12+", label: "Clients Served" },
+  { value: "13+", label: "Clients Served" },
   { value: "500+", label: "Personnel Deployed" },
-  { value: "98%", label: "Compliance Rate" },
+  { value: "100%", label: "Compliance Rate" },
 ];
 
 const WHY = [
@@ -249,7 +249,7 @@ export default function Services() {
         /* ── STATS ── */
         .stats-bar { background:#0a1a52; border-top:1px solid rgba(255,255,255,0.06); }
         .stats-inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:repeat(2,1fr); }
-        .stat-cell { padding:28px 16px; text-align:center; border-right:1px solid rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.08); transition:background 0.3s; }
+        .stat-cell { display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:28px 16px; text-align:center; border-right:1px solid rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.08); transition:background 0.3s; }
         .stat-cell:hover { background:rgba(255,255,255,0.03); }
         .stat-val { font-family:'Raleway',sans-serif; font-size:clamp(28px,5vw,40px); font-weight:900; color:#fff; line-height:1; }
         .stat-lbl { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(255,255,255,0.5); margin-top:7px; }
@@ -605,7 +605,7 @@ export default function Services() {
 
         {/* ══ HERO ══ */}
         <section className="bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[120px] pb-12 md:pt-[150px] md:pb-16">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
               <div className="space-y-5">
                 <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.25em] text-sky-200 font-semibold">
@@ -618,8 +618,8 @@ export default function Services() {
                   Comprehensive manpower, security and compliance-driven solutions tailored for Government departments, Defence units and Corporate organisations across India.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <button className="rounded-md bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-2 text-xs sm:text-sm">Explore Services</button>
-                  <button className="rounded-md border border-white/40 text-white font-semibold px-4 py-2 text-xs sm:text-sm">Contact Us</button>
+                  <button onClick={() => { document.getElementById('core-services')?.scrollIntoView({ behavior: 'smooth' }); }} className="rounded-md bg-sky-500 hover:bg-sky-600 text-white font-semibold px-4 py-2 text-xs sm:text-sm">Explore Services</button>
+                  <button onClick={() => navigate('/contact')} className="rounded-md border border-white/40 text-white font-semibold px-4 py-2 text-xs sm:text-sm hover:bg-white/10 transition-colors">Contact Us</button>
                 </div>
               </div>
               <div>
@@ -688,7 +688,7 @@ export default function Services() {
         </section>
 
         {/* ══ OUR CORE SERVICES ══ */}
-        <section className="sec-pad" style={{ background: "#fff" }}>
+        <section id="core-services" className="sec-pad" style={{ background: "#fff" }}>
           <div className="sec-wrap">
             <Reveal>
               <div className="sec-eyebrow">What We Offer</div>
@@ -699,9 +699,11 @@ export default function Services() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {SERVICES.map((s, i) => (
                 <Reveal key={s.id} delay={i * 70}>
-                  <article className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:shadow-md transition">
-                    <img src={s.photo} alt={s.title} className="w-full h-auto object-cover" />
-                    <div className="p-4 sm:p-5">
+                  <article className="border border-slate-200 rounded-xl overflow-hidden bg-white shadow-sm hover:-translate-y-2 hover:shadow-xl transition-all duration-300 group cursor-pointer h-full flex flex-col">
+                    <div className="overflow-hidden">
+                      <img src={s.photo} alt={s.title} className="w-full h-56 object-cover transition-transform duration-500 group-hover:scale-105" />
+                    </div>
+                    <div className="p-4 sm:p-5 flex-1">
                       <span className="inline-block mb-2 text-xs font-semibold uppercase tracking-wider bg-sky-100 text-sky-700 px-2 py-1 rounded">{s.tag}</span>
                       <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">{s.title}</h3>
                       <p className="text-sm text-slate-600 mb-3">{s.desc}</p>

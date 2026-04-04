@@ -9,7 +9,9 @@ import Contact from "./pages/Contact";
 import ComplianceSection from "./pages/Compliance";
 import ClientsUI from "./pages/Clients";
 import ConsultationPage from "./pages/consultation";
-
+import TendersPage from "./pages/Tenderspage.jsx";
+import Team from "./pages/Team";
+import Search from "./pages/Search";
 function App() {
   return (
     <>
@@ -24,6 +26,9 @@ function App() {
         <Route path="/compliance" element={<ComplianceSection />} />
         <Route path="/clients" element={<ClientsUI />} />
         <Route path="/consultation" element={<ConsultationPage />} />
+        <Route path="/tenders" element={<TendersPage />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/search" element={<Search />} />
       </Routes>
 
       <Footer />
