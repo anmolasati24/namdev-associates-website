@@ -68,7 +68,7 @@ export default function Clients() {
         {/* Contract Highlight */}
         <div className="mb-20">
           <h3 className="text-2xl font-semibold text-gray-800">
-            ₹ 8+ Crore Government Contracts Successfully Executed
+            ₹ 20+ Crore Government Contracts Successfully Executed
           </h3>
           <p className="text-gray-600 mt-3">
             Proven track record under Ministry of Defence, Atomic Energy,
