@@ -208,7 +208,7 @@ ${activeSection === item.key
                                                 name: "Mr Rohit Namdev",
                                                 role: "Founder & Managing Director",
                                                 phone: "+91 8423215047",
-                                                email: "namdevassociates@gmail.com",
+                                                email: "namdevassociateslko@gmail.com",
                                                 image: "/assets/RNM.png"
                                             },
 
@@ -216,7 +216,7 @@ ${activeSection === item.key
                                                 name: "Mr Tarun Parihar",
                                                 role: "Operational Manager",
                                                 phone: "+91 8423215047",
-                                                email: "namdevassociates@gmail.com",
+                                                email: "namdevassociateslko@gmail.com",
                                                 image: "/assets/TPR.jpeg"
                                             },
 
@@ -224,7 +224,7 @@ ${activeSection === item.key
                                                 name: "Mr Garvesh Namdev",
                                                 role: "HR Coordinator",
                                                 phone: "+91 8423215047",
-                                                email: "namdevassociates@gmail.com",
+                                                email: "namdevassociateslko@gmail.com",
                                                 image: "/assets/GNM.jpeg"
                                             },
 
@@ -232,14 +232,14 @@ ${activeSection === item.key
                                                 name: "Miss Sonali Verma",
                                                 role: "HR Coordinator",
                                                 phone: "+91 8423215047",
-                                                email: "namdevassociates@gmail.com",
+                                                email: "namdevassociateslko@gmail.com",
                                                 image: "/assets/svv.jpeg"
                                             },
                                             {
                                                 name: "Miss Sweta Maurya",
                                                 role: "HR Coordinator",
                                                 phone: "+91 8423215047",
-                                                email: "namdevassociates@gmail.com",
+                                                email: "namdevassociateslko@gmail.com",
                                                 image: "/assets/Sweta.jpg"
                                             }
 

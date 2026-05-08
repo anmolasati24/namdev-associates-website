@@ -23,21 +23,21 @@ const OFFICES = [
     label: "Headquarters",
     address: "3/290 Vipul Khand, Gomti Nagar, Lucknow – 226010",
     phone: "+91-84232-15047",
-    email: "namdevassociates@gmail.com",
+    email: "namdevassociateslko@gmail.com",
   },
   {
     city: "Bhopal",
     label: "Regional Office",
     address: "M.NO.45, Chuna Bhatti, Kolar Road, Bhopal – 462016",
     phone: "+91-84232-15047",
-    email: "namdevassociates@gmail.com",
+    email: "namdevassociateslko@gmail.com",
   },
   {
     city: "New Delhi",
     label: "Corporate Office",
     address: "B15, Office No. 1, 2nd Floor, Matiala Rd, Kiran Garden, Uttam Nagar – 110059",
     phone: "+91-84232-15047",
-    email: "namdevassociates@gmail.com",
+    email: "namdevassociateslko@gmail.com",
   },
 ];
 

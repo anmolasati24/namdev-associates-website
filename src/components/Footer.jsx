@@ -79,7 +79,7 @@ export default function Footer() {
 
               <div className="flex items-center space-x-3">
                 <FaEnvelope className="text-blue-500" />
-                <p>namdevassociates@gmail.com</p>
+                <p>namdevassociateslko@gmail.com</p>
               </div>
 
             </div>
