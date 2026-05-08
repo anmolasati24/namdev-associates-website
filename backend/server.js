@@ -134,7 +134,7 @@ app.post("/api/contact", async (req, res) => {
           </table>
           <p style="margin-top:25px;color:#333">
             📞 <strong>+91 84232 15047</strong><br/>
-            📧 <strong>info@namdevassociates.com</strong>
+            📧 <strong>namdevassociates@gmail.com</strong>
           </p>
           <br/>
           <p style="color:#333">Best Regards,<br/><strong>Namdev Associates</strong><br/><span style="color:#888;font-size:12px">Manpower | Security | HR | ISO Consultancy</span></p>

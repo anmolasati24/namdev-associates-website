@@ -10,7 +10,7 @@ const OFFICES = [
     state: "Uttar Pradesh",
     address: "3/290, Vipul Khand, Gomti Nagar, Lucknow – 226010",
     phone: "+91-84232-15047",
-    email: "info@namdevassociates.com",
+    email: "namdevassociates@gmail.com",
     details: "Corporate Headquarters",
   },
   {
